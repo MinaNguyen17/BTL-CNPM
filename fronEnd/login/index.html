@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang='vi'>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Academic management">
+	<meta content="author" name="Tanlocdev04">
+	<meta content="country" name="Viet Nam">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../static/css/file.css">
+	<link rel="stylesheet" href="../static/css/login.css">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!--css cho stickychop -->
+     <!-- <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <!--css cho footer -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <!--css cho accordion, modal, dropdown, tooltip -->
+
+	<link rel="stylesheet" href="../../static/css/style.css">
+	<title>Trang chủ</title>
+</head>
+	<script> 
+		function togglePanel(panelId) {
+        		var panel = document.getElementById(panelId);
+        		panel.classList.toggle('active');
+    		}
+	</script>
+	<script>const carousel = new bootstrap.Carousel('#myCarousel')</script> 
+
+<body>
+	<div class="sticky-top">
+		<nav>
+			<a href="#back_ground_wave" class="menu_left">Trang chủ</a>
+			<a class="menu_left">In tài liệu</a>
+			<a class="menu_left">Lịch sử mua</a>
+			<a class="menu_left">Mua giấy</a>
+
+			<a href="index.html" class="menu_right">Đăng nhập</a>
+			<a class="menu_right">Vietnamese(vi)</a>
+		</nav>
+     </div>
+    <div>
+
+<!-- 	     <div class="background">
+	        <img src="../../static/assets/Education.jpg" alt="Hình ảnh" class="blurred-image">
+	     </div>
+ -->
+	     <section class="login-form">
+	        <h2>Đăng nhập bằng tài khoản của bạn</h2>
+
+	        <button onclick="window.location.href='login2.html'" class="accordion " onclick="togglePanel('panel1')">Tài khoản HCMUT (HCMUT account)</button>
+
+	        <!-- <div id="panel1" class="panel">
+	            <form action="#">
+	                <input type="text" id="username" name="username" placeholder="Tên tài khoản" required>
+	                <div class="login">
+	                	<input  type="password" id="password" name="password" placeholder="Mật khẩu" required>
+	                	<button type="button" class="btn btn-outline-success">Đăng Nhập </button>
+	            	</div>
+	            </form>
+	        </div> -->
+
+	        <button class="accordion" onclick="togglePanel('panel2')">Quản trị viên</button>	
+	        <div id="panel2" class="panel">
+	            <form action="#">
+	                <input type="text" id="username" name="username" placeholder="Tên tài khoản" required>
+	                <div class="login">
+	                	<input  type="password" id="password" name="password" placeholder="Mật khẩu" required>
+	                	<button type="button" class="btn btn-outline-success">Đăng Nhập </button>
+	            	</div>
+	            </form>
+	        </div>  
+
+	        <!-- </div> -->
+	    </section>
+	</div>
+
+	<footer>
+		<div class="call">
+			<div class="fa fa-phone"></div>
+			<p class="call_us">Liên hệ: 0123456789 </p>
+		</div>
+		<div class="contact">
+			<div class="fa fa-envelope"></div>
+			<p class="contact_us">E-mail:ABC@gmail.com</p>
+		</div>
+	</footer>
+</body>

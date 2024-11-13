@@ -1,0 +1,107 @@
+section {
+    padding: 20px;
+}
+
+.login-form {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-top: 0;
+}
+    
+.login-form form {
+    padding: 20px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #000;
+    color: #fff;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: opacity 0.5s;
+
+}
+.login-form button:hover{
+    opacity: 0.8;
+  }
+
+.login-form p {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.login-form a {
+    color: #000;
+}
+
+#fail a {
+    font-size: 100%;
+    color: red;
+    text-decoration: none;
+    margin-right: 100px;
+}
+
+.accordion {
+  background-color: #444444;
+  color: #eee;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  
+}
+
+.accordion a {
+   color: #eee;
+}
+
+.active, .accordion:hover {
+  background-color: none; 
+}
+
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+}
+.login{
+    padding-top: 15px;
+   
+    width: 420px;
+}
