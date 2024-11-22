@@ -1,5 +1,5 @@
 # Introduction
-Welcome to the Smart Printing Service website for students at Ho Chi Minh City University of Technology!
+Welcome to the Smart Printing Service website for students at Ho Chi Minh City University of Technology! This system is developed by Group 6, Class CN01.
 
 # Features
 👩‍🏫 **For students:**
