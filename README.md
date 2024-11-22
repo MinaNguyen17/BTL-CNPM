@@ -17,3 +17,8 @@ Welcome to the Smart Printing Service website for students at Ho Chi Minh City U
 - System configuration management
 - Viewing reports
 - Viewing printing log
+  
+# Implementation
+- Frontend: HTML, CSS, Javascript
+- Backend: NodeJS
+- Storage: MongoDB
