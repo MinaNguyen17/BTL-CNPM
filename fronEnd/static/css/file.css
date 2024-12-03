@@ -1,6 +1,6 @@
 nav {
 	background-color: #3B9ECC;
-	overflow: hidden;
+	overflow: visible;
 }
 
 nav a {
@@ -14,6 +14,12 @@ nav a {
 nav a:hover {
 	background-color: #CAD4CB;
 	color: black;
+}
+
+nav::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 #menu_text {
@@ -124,6 +130,19 @@ footer > a {
 
 
 /*dropdown*/
+.menu_right .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1050;
+}
+
+.menu_right:hover .dropdown-content {
+    display: block;
+}
 
 .dropdown {
     position: relative;
