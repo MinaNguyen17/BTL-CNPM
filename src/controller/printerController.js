@@ -1,5 +1,4 @@
 const Printer = require("../model/Printer.js");
-const Payment = require("../Models/Payment");
 
 // Hàm tạo máy in mới
 exports.addNewPrinter = async (req, res) => {
@@ -61,6 +60,7 @@ exports.GetOnePrinter = async (req, res) => {
 exports.UpdatePrinter = async (req, res) => {
   try {
     const printerID = req.params.printerID;
+    console.log(printerID);
     const printerInfo = req.body;
 
     const printer = await Printer.findByIdAndUpdate(

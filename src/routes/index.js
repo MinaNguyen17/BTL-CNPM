@@ -1,9 +1,10 @@
 const express = require("express");
 const fileRoute = require("./file");
+const printerRoute = require("./printer.js");
 
 const router = express.Router();
 
-// Route chính dẫn đến fileRoute
 router.use("/file", fileRoute);
+router.use("/printer", printerRoute);
 
 module.exports = router;

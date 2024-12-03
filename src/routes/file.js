@@ -11,6 +11,8 @@ const {
 const router = express.Router();
 
 // Routes chi tiết
+router.post("/:fileId/config", fileController.addFileConfig);
+router.get("/:fileId/config", fileController.getFileWithConfig);
 router.get("/", fileController.getFiles); // Lấy danh sách file
 router.post("/upload", upload.single("file"), fileController.uploadFile); // Upload file
 router.get("/:id", fileController.getFileById); // Download file theo ID

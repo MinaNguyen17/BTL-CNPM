@@ -1,4 +1,5 @@
 const File = require("../model/File.js");
+const FileConfig = require("../model/FileConfig.js");
 const fs = require("fs").promises;
 
 // Lấy danh sách file
@@ -57,5 +58,63 @@ exports.uploadFile = async (req, res) => {
       message: "Error uploading file",
       error: error.message,
     });
+  }
+};
+
+// Thêm cấu hình cho file
+exports.addFileConfig = async (req, res) => {
+  try {
+    const { fileId } = req.params;
+    const { copies, scale, sides, layout, paperSize, printRange, totalPages } =
+      req.body;
+
+    // Kiểm tra file có tồn tại hay không
+    const file = await File.findById(fileId);
+    if (!file) {
+      return res.status(404).json({ message: "File không tồn tại." });
+    }
+
+    // Kiểm tra nếu file đã có cấu hình
+    const existingConfig = await FileConfig.findOne({ file: fileId });
+    if (existingConfig) {
+      return res.status(400).json({ message: "File đã có cấu hình." });
+    }
+
+    // Tạo config mới
+    const newConfig = new FileConfig({
+      file: fileId,
+      copies,
+      scale,
+      sides,
+      layout,
+      paperSize,
+      printRange,
+      totalPages,
+    });
+
+    await newConfig.save();
+    file.fileConfig = newConfig._id;
+    await file.save();
+    res.status(201).json(newConfig);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Lấy thông tin File kèm theo FileConfig
+exports.getFileWithConfig = async (req, res) => {
+  try {
+    const { fileId } = req.params;
+
+    // Lấy file kèm cấu hình (dùng populate)
+    const fileWithConfig = await File.findById(fileId).populate("fileConfig");
+
+    if (!fileWithConfig) {
+      return res.status(404).json({ message: "File không tồn tại." });
+    }
+
+    res.status(200).json(fileWithConfig);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
