@@ -1,4 +1,7 @@
 const Printer = require("../model/Printer.js");
+const File = require("../model/File.js");
+const Log = require("../model/Log.js");
+const mongoose = require("mongoose");
 
 // Hàm tạo máy in mới
 exports.addNewPrinter = async (req, res) => {
@@ -96,5 +99,54 @@ exports.DeletePrinter = async (req, res) => {
       .json({ message: "Xóa máy in thành công", printer: deletedPrinter });
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+exports.SendRequest = async (req, res) => {
+  try {
+    const { fileID, printerID } = req.body;
+    console.log(fileID);
+
+    const printer = await Printer.findById(printerID);
+    // Nếu không tìm thấy máy in
+    if (!printer) {
+      return res.status(404).json({ message: "Máy in không được tìm thấy" });
+    }
+
+    // Lấy tệp theo ID
+    const file = await File.findById(fileID);
+    console.log(file.filename);
+
+    // Nếu không tìm thấy tệp
+    if (!file) {
+      return res.status(404).json({ message: "Tệp không được tìm thấy" });
+    }
+
+    // Tạo bản ghi log
+    const newLog = new Log({
+      filename: file.filename,
+      printerName: printer.name,
+    });
+    await newLog.save();
+
+    // Trả về bản ghi log đã được lưu
+    res.status(201).json(newLog);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+exports.getAllLogs = async (req, res) => {
+  try {
+    // Lấy tất cả các bản ghi log
+    const logs = await Log.find();
+
+    // Trả về danh sách log
+    res.status(200).json(logs);
+  } catch (err) {
+    // Xử lý lỗi khi không thể lấy dữ liệu
+    res
+      .status(500)
+      .json({ message: "Lỗi khi lấy bản ghi log", error: err.message });
   }
 };
