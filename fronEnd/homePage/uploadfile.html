@@ -220,9 +220,12 @@ function fetchFileList() {
         console.log('Dữ liệu từ server:', data);
         if (Array.isArray(data)) {
             renderFileList(data); // Trường hợp server trả về mảng
-        } else if (data.success) {
-            renderFileList(data.files); // Trường hợp server trả về đối tượng
-        } else {
+        } else 
+		// if (data.success) {
+        //     renderFileList(data.files); // Trường hợp server trả về đối tượng
+        // } 
+		//else 
+		{
             alert('Không thể lấy danh sách file! Lỗi từ API: ' + (data.message || 'Không rõ'));
         }
     })
@@ -255,19 +258,22 @@ function renderFileList(files) {
 }
 
 function deleteFile(fileId) {
-    fetch(`http://localhost:3000/file/delete/${fileId}`, {
+    fetch(`http://localhost:3000/file/${fileId}`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${token}`, // Token hợp lệ
         },
     })
-    .then(response => response.json())
+    .then(response => {if (!response.ok) {
+        throw new Error(`Lỗi khi xóa file: ${response.status}`);
+    }
+    return response.json();})
     .then(data => {
         if (data.success) {
-            alert('Xóa file thành công!');
-            fetchFileList(); // Cập nhật danh sách file
+			alert('Không thể xóa file! Lỗi từ API: ' + data.message);
         } else {
-            alert('Không thể xóa file! Lỗi từ API: ' + data.message);
+			alert('Xóa file thành công!');
+            fetchFileList(); // Cập nhật danh sách file
         }
     })
     .catch(err => {
