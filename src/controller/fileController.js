@@ -118,3 +118,25 @@ exports.getFileWithConfig = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.deleteFileById = async (req, res) => {
+  const { fileId } = req.params; // Lấy ID từ request params
+  try {
+    // Tìm file trong MongoDB
+    const file = await File.findById(fileId);
+
+    if (!file) {
+      return res.status(404).json({ message: "File not found!" });
+    }
+
+    // Xóa file
+    await file.deleteOne();
+
+    return res.status(200).json({ message: "File deleted successfully!" });
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the file." });
+  }
+};
