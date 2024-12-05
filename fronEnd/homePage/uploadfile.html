@@ -199,7 +199,7 @@
         const fileListContainer = document.getElementById('fileListContainer');
         const fileNameText = document.getElementById('fileNameText');
 		function fetchFileList() {
-            fetch('http://localhost:3000/files')
+            fetch('http://localhost:3000/file')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -262,8 +262,11 @@
                 formData.append('size', file.size);
                 formData.append('contentType', file.type);
 
-                fetch('http://localhost:3000/upload', {
+                fetch('http://localhost:3000/file/upload', {
                     method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${jdkzvbjbgzdfvjsbgflvnr34724852342342}`, // Thay "yourTokenHere" bằng token thật
+                    },
                     body: formData,
                 })
                     .then(response => response.json())
