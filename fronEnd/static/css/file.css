@@ -164,9 +164,10 @@ footer > a {
 
 .avatar {
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     margin-right: 8px;
+    object-fit: cover;"
 }
 
 .caret {
@@ -298,3 +299,41 @@ footer > a {
     }
 }
 /*harmony */
+
+/* Sidebar */
+.sidebar {
+  height: 100%;
+  width: 450px;
+  position: fixed;
+  top: 0;
+  right: 0; /* Sidebar sẽ mở từ bên phải */
+  background-color: #3B9ECC;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 65px;
+/*  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;*/
+  z-index: 999;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .close-btn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
