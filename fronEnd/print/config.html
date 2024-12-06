@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang='vi'>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="A Smart Printing Service">
+	<meta content="author" name="Tanlocdev04">
+	<meta content="country" name="Viet Nam">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../static/css/test.css">
+	<link rel="stylesheet" href="../static/css/style_calendar.css">  <!--css cho lic-->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet"> <!--css cho lich-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!--css cho lich -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <!--css cho footer -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!--css cho stickychop -->
+	<title>Trang chủ </title>
+</head>
+<body>
+	<div class="sticky-top">
+		<nav>
+			<a href="../homePage/index.html" class="menu_left">
+            <img src="../static/assets/hcmut.png" alt="Logo" class="logo" style="height: 30px;">
+       		</a>
+			<a href="../homePage/index.html" class="menu_left">Trang chủ</a>
+			<a class="menu_left">In tài liệu</a>
+			<a class="menu_left">Lịch sử mua</a>
+			<a class="menu_left">Mua giấy</a>
+     
+			<div class="menu_right dropdown">
+				<button class="dropbtn">
+		            <img src="../static/assets/userAvatar.png" alt="User Avatar" class="avatar">
+		            <span class="caret">▼</span>
+		        </button>
+
+		        <div class="dropdown-content">
+		            <a href="#">Hồ sơ</a>
+		            <!-- <a href="#">Điểm</a> -->
+		            <a href="#">Lịch</a>
+		            <a href="#">Tập tin riêng tư</a>
+		            <a href="#">Báo cáo</a>
+		            <a href="#">Tùy chọn</a>
+		            <div class="submenu">
+		                <a href="#">Ngôn ngữ</a>
+		                <div class="submenu-content">
+		                    <a href="#">Tiếng Việt</a>
+		                    <a href="#">English</a>
+		                </div>
+		            </div>
+		            <a href="#">Thoát</a>
+		        </div>
+			</div>
+
+		</nav>
+	</div>
+	
+	<div id="flex_container">
+        <div id="left_side">
+            <div class="container">
+                <div class="preview">
+                    <!-- Hiển thị file PDF -->
+                    <div id="pdf-container">
+                        <!-- Canvas để hiển thị các trang PDF -->
+                        <div id="canvas-container">
+                            <canvas id="pdf-canvas"></canvas>
+                        </div>
+
+                        <!-- Điều khiển chuyển trang -->
+                        <div>
+                            <button id="prev-page">Trang trước</button>
+                            <span id="page-info">Trang 1/1</span>
+                            <button id="next-page">Trang sau</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <h1 class="title">In tài liệu</h1>
+
+                    <div class="form-group">
+                        <label for="file-name">Tên tài liệu:</label>
+                        <input type="text" id="file-name" value="Lorem ipsum 1" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="copies">Số bản in:</label>
+                        <input type="number" id="copies" value="1" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sides">Số mặt:</label>
+                        <select id="sides">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="layout">Bố cục:</label>
+                        <select id="layout">
+                            <option value="portrait">Dọc</option>
+                            <option value="landscape">Ngang</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paper-size">Cỡ giấy:</label>
+                        <select id="paper-size">
+                            <option value="a4">A4</option>
+                            <option value="a3" selected>A3</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="page-range">Trang in:</label>
+                        <input type="text" id="page-range" placeholder="VD: 1-5, ...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số trang cần in:</label>
+                        <p id="total-pages">20</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số trang in còn lại:</label>
+                        <p id="remaining-pages">20</p>
+                    </div>
+
+                    <div class="footer">
+                        <button id="print-button">In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div id="right_side">
+			<!-- <div class="container">
+		        <div class="recent-files">
+		            <h3>Các file đã in gần đây</h3>
+		            <ul>
+		                <li>1. ABC.pdf</li>
+		                <li>2. DEF.doc</li>
+		                <li>3. GHI.pdf</li>
+		                <li>4. JKL.ppt</li>
+		            </ul>
+		        </div>
+
+		        <div class="system-notifications">
+		            <h3>Thông báo hệ thống</h3>
+		            <ul>
+		                <li>Máy in #1 hết mực</li>
+		                <li>Máy in #3 đang sửa chữa</li>
+		                <li>Máy in #2 đã hoạt động bình thường</li>
+		            </ul>
+		        </div>
+		    </div> -->			
+				<div class="content_item">
+					<!-- <img class="content_img" src="assets/math.jpg"/>
+					<div class="content_title">Các file đã in gần đây</div>
+					<div class="content_desc"></div> -->
+					<div class="recent-files">
+			            <h3>Các file đã in gần đây</h3>
+			            <ul>
+			                <li>1. ABC.pdf</li>
+			                <li>2. DEF.doc</li>
+			                <li>3. GHI.pdf</li>
+			                <li>4. JKL.ppt</li>
+			            </ul>
+			        </div>
+				</div>
+
+				<div class="content_item">
+					<!-- <img class="content_img" src="assets/math.jpg"/>
+					<div class="content_title">Thông báo hệ thống</div>
+					<div class="content_desc"></div> -->
+					<div class="system-notifications">
+			            <h3>Thông báo hệ thống</h3>
+			            <ul>
+			                <li>Máy in #1 hết mực</li>
+			                <li>Máy in #3 đang sửa chữa</li>
+			                <li>Máy in #2 đã hoạt động bình thường</li>
+			            </ul>
+			        </div>
+				</div>
+				<div class="content_item">
+					<!-- <img class="content_img" src="assets/math.jpg"/>
+					<div class="content_title">Lịch</div>
+					<div class="content_desc"></div> -->
+					<section class="ftco-section">
+						<div class="container">
+							<div class="row justify-content-center">
+								<div class="col-md-6 text-center mb-5">
+									<!-- <h2 class="heading-section">Lịch</h2> -->
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="calendar calendar-first" id="calendar_first">
+								    <div class="calendar_header">
+								        <button class="switch-month switch-left"> <i class="fa fa-chevron-left"></i></button>
+								         <h2></h2>
+								        <button class="switch-month switch-right"> <i class="fa fa-chevron-right"></i></button>
+								    </div>
+								    <div class="calendar_weekdays"></div>
+								    <div class="calendar_content"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+		</div>
+
+	</div>
+
+	<footer>
+		<div class="call">
+			<div class="fa fa-phone"></div>
+			<p class="call_us">Liên hệ: 0123456789 </p>
+		</div>
+		<div class="contact">
+			<div class="fa fa-envelope"></div>
+			<p class="contact_us">E-mail:ABC@gmail.com</p>
+		</div>
+	</footer>
+	<script src="../static/js/script.js"></script>
+	<script src="../static/js/jquery.min.js"></script>
+  <script src="../static/js/popper.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/main.js"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
+  <script src="../static/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</body>
+<script>
+	const fileID = "67504d50eb35a49f6f900687"; // ID của file
+	const printerID = "67504a61eb35a49f6f90067d"; // ID của máy in
+	const apiUrl = "http://localhost:3000/printer/send";
+
+	// Khởi tạo PDF.js
+	const canvas = document.getElementById("pdf-canvas");
+	const ctx = canvas.getContext("2d");
+	let pdfDoc = null;
+	let pageNum = 1;
+
+	// Hàm render một trang PDF
+	function renderPage(pageNum) {
+		pdfDoc.getPage(pageNum).then((page) => {
+			const viewport = page.getViewport({ scale: 1.5 });
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+
+			const renderContext = {
+				canvasContext: ctx,
+				viewport: viewport,
+			};
+			page.render(renderContext);
+		});
+	}
+
+	// Tải file PDF từ server
+	fetch(apiUrl, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ fileID, printerID }),
+	})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Lỗi khi tải file từ server");
+			}
+			return response.blob();
+		})
+		.then((blob) => {
+			const fileReader = new FileReader();
+			fileReader.onload = function () {
+				const pdfData = new Uint8Array(this.result);
+				pdfjsLib.getDocument({ data: pdfData }).promise.then((pdf) => {
+					pdfDoc = pdf;
+					document.getElementById("page-info").textContent = `Trang 1 / ${pdf.numPages}`;
+					renderPage(pageNum);
+				});
+			};
+			fileReader.readAsArrayBuffer(blob);
+		})
+		.catch((error) => {
+			console.error("Lỗi:", error);
+			alert("Không thể tải tài liệu. Vui lòng thử lại!");
+		});
+		
+</script>
+</html>

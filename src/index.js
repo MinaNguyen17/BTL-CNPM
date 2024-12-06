@@ -4,6 +4,7 @@ const path = require("path");
 const mainRoutes = require("./routes/index");
 const connectDB = require("./config/db.js");
 const dotenv = require("dotenv");
+const cors = require("cors"); // import cors package
 
 // Load environment variables
 dotenv.config();
@@ -42,6 +43,23 @@ app.get("/homePage/index", (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../fronEnd/homePage/index.html"));
 });
+
+//print
+app.get("/homePage/uploadfile", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/homePage/uploadfile.html"));
+});
+
+app.get("/homePage/config", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/homePage/config.html"));
+});
+
+
+// Cấu hình CORS
+app.use(cors({
+  origin: '*', // Cho phép tất cả các domain
+  methods: 'GET,POST',  // Các phương thức được phép
+  allowedHeaders: 'Content-Type, Authorization'  // Các header được phép
+}));
 
 const PORT = process.env.PORT || 3000;
 

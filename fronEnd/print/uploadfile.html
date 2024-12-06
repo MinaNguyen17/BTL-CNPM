@@ -3,9 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="description" content="A Smart Printing Service">
+	<meta content="author" name="Tanlocdev04">
+	<meta content="country" name="Viet Nam">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../static/css/file.css">
-    <link rel="stylesheet" href="../static/css/success.css">
+	<link rel="stylesheet" href="../static/css/test.css">
 	<link rel="stylesheet" href="../static/css/style_calendar.css">  <!--css cho lic-->
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet"> <!--css cho lich-->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!--css cho lich -->
@@ -53,26 +54,33 @@
 	
 	<div id="flex_container">
 		<div id="left_side">
-			<div class="content_item">
-                <div class="content_title" id="success">
-                    <h1>In thành công!</h1>
+ 
+                    <h1 class="title" style="display: block;">In tài liệu</h1>
+                    <p class="subtitle">Đăng tải tài liệu bạn muốn in</p>
+                
+            <!-- Bao ngoài ô tải file để tạo viền ngoài -->
+            <div class="upload-box-wrapper">
+                <!-- Ô tải file với viền trong đứt -->
+                <div class="upload-box">
+                    <input type="file" id="fileInput" multiple style="display:none;">
+                    <button id="uploadButton">Tải file lên</button>
+                    <p id="fileNameText">Không tệp nào được chọn</p>
                 </div>
-                <div class="content_desc" >Cảm ơn vì đã tin tưởng và sử dụng dịch vụ của chúng tôi</div>
-                <div class="content_title" > 
-                    <h2 class="mt-5">Các thao tác khác:</h2>
-                </div>
-                <div class="button">
-                    <button class="payment-method-button">
-                        <a href=" " style="text-decoration:none; color: #ffffff;">In thêm tài liệu</a>
-                    </button>
-                    <button class="payment-method-button">
-                        <a href=" " style="text-decoration:none; color: #ffffff;">Lịch sử in ấn</a>
-                    </button>
-                    <button class="payment-method-button">
-                        <a href="../homePage/index.html " style="text-decoration:none; color: #ffffff;">Quay về trang chủ</a>
-                    </button>
-                </div>     
             </div>
+    
+            <!-- Uploaded Files List -->
+            <div class="file-list-box-wrapper">
+            <div class="file-list-box">
+            <div class="file-list">
+                <h1>Những file đã tải lên</h1>
+                <div class="uploaded-files" id="fileListContainer">
+                    <p>(Chưa có file nào được tải lên)</p>
+                </div>
+            </div>
+            </div>
+            </div>
+          
+		
 		</div>
 
 		<div id="right_side">
@@ -163,7 +171,7 @@
 		<div class="contact">
 			<div class="fa fa-envelope"></div>
 			<p class="contact_us">E-mail:ABC@gmail.com</p>
-			</div>
+		</div>
 	</footer>
 	<script src="../static/js/script.js"></script>
 	<script src="../static/js/jquery.min.js"></script>
@@ -186,6 +194,140 @@
             dropdown.classList.remove("show");
         });
     });
+// Lấy các phần tử cần thiết
+const fileInput = document.getElementById('fileInput');
+const fileListContainer = document.getElementById('fileListContainer');
+const fileNameText = document.getElementById('fileNameText');
+
+// Để token trực tiếp trong mã (đảm bảo token hợp lệ)
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE";
+
+// Lấy danh sách các file đã tải lên
+function fetchFileList() {
+    fetch('http://localhost:3000/file', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Token trực tiếp trong mã
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Không thể kết nối đến server hoặc API trả về lỗi!');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Dữ liệu từ server:', data);
+        if (Array.isArray(data)) {
+            renderFileList(data); // Trường hợp server trả về mảng
+        } else 
+		// if (data.success) {
+        //     renderFileList(data.files); // Trường hợp server trả về đối tượng
+        // } 
+		//else 
+		{
+            alert('Không thể lấy danh sách file! Lỗi từ API: ' + (data.message || 'Không rõ'));
+        }
+    })
+    .catch(err => {
+        console.error('Lỗi:', err);
+        alert('Đã có lỗi xảy ra khi lấy danh sách file: ' + err.message);
+    });
+}
+
+function renderFileList(files) {
+    // fileListContainer.innerHTML = ''; // Xóa danh sách cũ
+
+    if (!files || files.length === 0) {
+        fileListContainer.innerHTML = '<p>Chưa có file nào được tải lên.</p>';
+        return;
+    }
+
+    files.forEach(file => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        fileItem.innerHTML = `
+            <span>${file.filename} (${(file.size / 1024).toFixed(2)} KB)</span>
+            <a href="config	.html">
+                <button style="cursor: pointer;">🖨️</button>
+            </a>
+            <button onclick="deleteFile('${file._id}')">&#128465</button>
+        `;
+        fileListContainer.appendChild(fileItem);
+    });
+}
+
+function deleteFile(fileId) {
+    fetch(`http://localhost:3000/file/${fileId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Token hợp lệ
+        },
+    })
+    .then(response => {if (!response.ok) {
+        throw new Error(`Lỗi khi xóa file: ${response.status}`);
+    }
+    return response.json();})
+    .then(data => {
+        if (data.success) {
+			alert('Không thể xóa file! Lỗi từ API: ' + data.message);
+        } else {
+			alert('Xóa file thành công!');
+            fetchFileList(); // Cập nhật danh sách file
+        }
+    })
+    .catch(err => {
+        console.error('Lỗi:', err);
+        alert('Đã có lỗi xảy ra khi xóa file: ' + err.message);
+    });
+}
+
+// Lắng nghe sự kiện khi người dùng chọn file
+fileInput.addEventListener('change', function () {
+    const files = fileInput.files;
+
+    if (files.length === 0) {
+        fileNameText.textContent = 'Không tệp nào được chọn';
+        alert('Vui lòng chọn ít nhất một file!');
+        return;
+    }
+
+    fileNameText.textContent = `${files.length} tệp đã chọn`;
+
+    Array.from(files).forEach(file => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('filename', file.name);
+        formData.append('size', file.size);
+        formData.append('contentType', file.type);
+
+        fetch('http://localhost:3000/file/upload', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Dùng token trực tiếp trong mã
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Tải file "${file.name}" thành công!`);
+                fetchFileList(); // Cập nhật danh sách file
+            } else {
+                alert(`Lỗi: ${data.message}`);
+            }
+        })
+        .catch(err => console.error('Lỗi:', err));
+    });
+});
+
+// Tải file lên khi người dùng nhấn nút
+document.getElementById('uploadButton').addEventListener('click', function () {
+    fileInput.click(); // Mở hộp thoại chọn file
+});
+
+// Gọi hàm để tải danh sách file ngay khi trang được tải
+document.addEventListener('DOMContentLoaded', fetchFileList);
 </script>
 
 </body>
