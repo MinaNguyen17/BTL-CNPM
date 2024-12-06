@@ -53,40 +53,38 @@
 	</div>
 	
 	<div id="flex_container">
-		<div id="left_side">
+        <div id="left_side">
             <div class="container">
                 <div class="preview">
-                    <!-- <p><strong>Bản xem trước</strong></p>
-                    <img src="placeholder.png" alt="Document Preview">
-                    <p>Trang 1/12</p> -->
-                    <input type="file" id="file-input" accept="application/pdf">
-        
-            <div id="pdf-container">
-                <!-- Canvas để hiển thị các trang PDF -->
-                <div id="canvas-container"></div>
-                
-                <!-- Điều khiển chuyển trang -->
-                <div>
-                    <button id="prev-page">Trang trước</button>
-                    <span id="page-info">Trang 1/1</span>
-                    <button id="next-page">Trang sau</button>
+                    <!-- Hiển thị file PDF -->
+                    <div id="pdf-container">
+                        <!-- Canvas để hiển thị các trang PDF -->
+                        <div id="canvas-container">
+                            <canvas id="pdf-canvas"></canvas>
+                        </div>
+
+                        <!-- Điều khiển chuyển trang -->
+                        <div>
+                            <button id="prev-page">Trang trước</button>
+                            <span id="page-info">Trang 1/1</span>
+                            <button id="next-page">Trang sau</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-                </div>
-        
+
                 <div class="form-container">
                     <h1 class="title">In tài liệu</h1>
-        
+
                     <div class="form-group">
                         <label for="file-name">Tên tài liệu:</label>
                         <input type="text" id="file-name" value="Lorem ipsum 1" disabled>
                     </div>
-        
+
                     <div class="form-group">
                         <label for="copies">Số bản in:</label>
                         <input type="number" id="copies" value="1" min="1">
                     </div>
-        
+
                     <div class="form-group">
                         <label for="sides">Số mặt:</label>
                         <select id="sides">
@@ -94,7 +92,7 @@
                             <option value="2" selected>2</option>
                         </select>
                     </div>
-        
+
                     <div class="form-group">
                         <label for="layout">Bố cục:</label>
                         <select id="layout">
@@ -102,7 +100,7 @@
                             <option value="landscape">Ngang</option>
                         </select>
                     </div>
-        
+
                     <div class="form-group">
                         <label for="paper-size">Cỡ giấy:</label>
                         <select id="paper-size">
@@ -110,29 +108,28 @@
                             <option value="a3" selected>A3</option>
                         </select>
                     </div>
-        
+
                     <div class="form-group">
                         <label for="page-range">Trang in:</label>
                         <input type="text" id="page-range" placeholder="VD: 1-5, ...">
                     </div>
-        
+
                     <div class="form-group">
                         <label>Số trang cần in:</label>
                         <p id="total-pages">20</p>
                     </div>
-        
+
                     <div class="form-group">
                         <label>Số trang in còn lại:</label>
                         <p id="remaining-pages">20</p>
                     </div>
-        
+
                     <div class="footer">
                         <button id="print-button">In</button>
                     </div>
                 </div>
             </div>
-		
-		</div>
+        </div>
 
 		<div id="right_side">
 			<!-- <div class="container">
@@ -233,4 +230,62 @@
   <script src="../static/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </body>
+<script>
+	const fileID = "67504d50eb35a49f6f900687"; // ID của file
+	const printerID = "67504a61eb35a49f6f90067d"; // ID của máy in
+	const apiUrl = "http://localhost:3000/printer/send";
+
+	// Khởi tạo PDF.js
+	const canvas = document.getElementById("pdf-canvas");
+	const ctx = canvas.getContext("2d");
+	let pdfDoc = null;
+	let pageNum = 1;
+
+	// Hàm render một trang PDF
+	function renderPage(pageNum) {
+		pdfDoc.getPage(pageNum).then((page) => {
+			const viewport = page.getViewport({ scale: 1.5 });
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+
+			const renderContext = {
+				canvasContext: ctx,
+				viewport: viewport,
+			};
+			page.render(renderContext);
+		});
+	}
+
+	// Tải file PDF từ server
+	fetch(apiUrl, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ fileID, printerID }),
+	})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Lỗi khi tải file từ server");
+			}
+			return response.blob();
+		})
+		.then((blob) => {
+			const fileReader = new FileReader();
+			fileReader.onload = function () {
+				const pdfData = new Uint8Array(this.result);
+				pdfjsLib.getDocument({ data: pdfData }).promise.then((pdf) => {
+					pdfDoc = pdf;
+					document.getElementById("page-info").textContent = `Trang 1 / ${pdf.numPages}`;
+					renderPage(pageNum);
+				});
+			};
+			fileReader.readAsArrayBuffer(blob);
+		})
+		.catch((error) => {
+			console.error("Lỗi:", error);
+			alert("Không thể tải tài liệu. Vui lòng thử lại!");
+		});
+		
+</script>
 </html>

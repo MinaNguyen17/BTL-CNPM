@@ -561,3 +561,12 @@ footer > a {
     }
 }
 /*harmony */
+
+
+/*print Preview*/
+#pdf-canvas {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 10px;
+}
