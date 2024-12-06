@@ -194,6 +194,23 @@
             dropdown.classList.remove("show");
         });
     });
+	
+	// Mở sidebar
+	function toggleSidebar() {
+	  var sidebar = document.getElementById('sidebar');
+	  if (sidebar.style.width === '450px') {
+	    sidebar.style.width = '0';
+	  } else {
+	    sidebar.style.width = '450px';
+	  }
+	}
+
+	// Đóng sidebar
+	function closeSidebar() {
+	  document.getElementById('sidebar').style.width = '0';
+	}
+
+
 // Lấy các phần tử cần thiết
 const fileInput = document.getElementById('fileInput');
 const fileListContainer = document.getElementById('fileListContainer');
