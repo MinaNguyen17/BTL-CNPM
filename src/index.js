@@ -18,6 +18,16 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
 
+<<<<<<< Updated upstream
+=======
+// Cấu hình CORS
+app.use(cors({
+  origin: '*', // Cho phép tất cả các domain
+  methods: 'GET,POST,DELETE',  // Các phương thức được phép
+  allowedHeaders: 'Content-Type, Authorization'  // Các header được phép
+}));
+
+>>>>>>> Stashed changes
 // Routes
 app.use("/", mainRoutes);
 // Route để render file HTML từ thư mục frontend
