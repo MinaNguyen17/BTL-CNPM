@@ -6,12 +6,28 @@
 	<meta content="author" name="Tanlocdev04">
 	<meta content="country" name="Viet Nam">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../static/css/test.css">
+	<link rel="stylesheet" href="../static/css/file.css">
 	<link rel="stylesheet" href="../static/css/style_calendar.css">  <!--css cho lic-->
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet"> <!--css cho lich-->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!--css cho lich -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <!--css cho footer -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!--css cho stickychop -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+
 	<title>Trang chủ </title>
 </head>
 <body>
@@ -54,33 +70,87 @@
 	
 	<div id="flex_container">
 		<div id="left_side">
- 
-                    <h1 class="title" style="display: block;">In tài liệu</h1>
-                    <p class="subtitle">Đăng tải tài liệu bạn muốn in</p>
-                
-            <!-- Bao ngoài ô tải file để tạo viền ngoài -->
-            <div class="upload-box-wrapper">
-                <!-- Ô tải file với viền trong đứt -->
-                <div class="upload-box">
-                    <input type="file" id="fileInput" multiple style="display:none;">
-                    <button id="uploadButton">Tải file lên</button>
-                    <p id="fileNameText">Không tệp nào được chọn</p>
-                </div>
-            </div>
-    
-            <!-- Uploaded Files List -->
-            <div class="file-list-box-wrapper">
-            <div class="file-list-box">
-            <div class="file-list">
-                <h1>Những file đã tải lên</h1>
-                <div class="uploaded-files" id="fileListContainer">
-                    <p>(Chưa có file nào được tải lên)</p>
-                </div>
-            </div>
-            </div>
-            </div>
-          
-		
+			<h1 class="mt-5" style="text-align: center;"><strong>Lịch sử in ấn</strong> </h1>
+    <table id="print-log-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Filename</th>
+                <th>Printer Name</th>
+                <th>Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dữ liệu sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+    <div id="loading">Đang tải dữ liệu...</div>
+    <div id="error" style="color: red;"></div>
+
+    <script>
+        // Hàm gọi API và hiển thị dữ liệu
+        function fetchPrintLogs() {
+            // URL của API
+            const url = "http://localhost:3000/printer/log";
+
+            // Token của bạn
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQwMDkzOCwiZXhwIjoxNzMzNDg3MzM4fQ.FTFs3rPr7F0krqXkSDCc7KdbgkoTIiOZbT99JGhlZxc"; // Thay YOUR_ACCESS_TOKEN bằng mã token thực tế
+
+            // Gọi API bằng fetch
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Thêm token vào header
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Lỗi khi gọi API: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tableBody = document.querySelector("#print-log-table tbody");
+                const loadingElement = document.getElementById("loading");
+                const errorElement = document.getElementById("error");
+
+                // Ẩn thông báo loading
+                loadingElement.style.display = "none";
+
+                // Xóa dữ liệu cũ trong bảng (nếu có)
+                tableBody.innerHTML = "";
+
+                // Kiểm tra nếu dữ liệu là một mảng
+                if (Array.isArray(data)) {
+                    // Duyệt qua từng mục trong dữ liệu và tạo các dòng bảng
+                    data.forEach(log => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${log._id}</td>
+                            <td>${log.filename}</td>
+                            <td>${log.printerName}</td>
+                            <td>${log.__v}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    errorElement.textContent = "Dữ liệu trả về không hợp lệ.";
+                }
+            })
+            .catch(error => {
+                const errorElement = document.getElementById("error");
+                const loadingElement = document.getElementById("loading");
+
+                // Hiển thị lỗi và ẩn thông báo loading
+                loadingElement.style.display = "none";
+                errorElement.textContent = `Lỗi: ${error.message}`;
+            });
+        }
+
+        // Gọi hàm fetchPrintLogs khi trang web tải
+        window.onload = fetchPrintLogs;
+    </script>
 		</div>
 
 		<div id="right_side">
@@ -194,140 +264,6 @@
             dropdown.classList.remove("show");
         });
     });
-// Lấy các phần tử cần thiết
-const fileInput = document.getElementById('fileInput');
-const fileListContainer = document.getElementById('fileListContainer');
-const fileNameText = document.getElementById('fileNameText');
-
-// Để token trực tiếp trong mã (đảm bảo token hợp lệ)
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQwMDkzOCwiZXhwIjoxNzMzNDg3MzM4fQ.FTFs3rPr7F0krqXkSDCc7KdbgkoTIiOZbT99JGhlZxc";
-
-// Lấy danh sách các file đã tải lên
-function fetchFileList() {
-    fetch('http://localhost:3000/file', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`, // Token trực tiếp trong mã
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Không thể kết nối đến server hoặc API trả về lỗi!');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Dữ liệu từ server:', data);
-        if (Array.isArray(data)) {
-            renderFileList(data); // Trường hợp server trả về mảng
-        } else 
-		// if (data.success) {
-        //     renderFileList(data.files); // Trường hợp server trả về đối tượng
-        // } 
-		//else 
-		{
-            alert('Không thể lấy danh sách file! Lỗi từ API: ' + (data.message || 'Không rõ'));
-        }
-    })
-    .catch(err => {
-        console.error('Lỗi:', err);
-        alert('Đã có lỗi xảy ra khi lấy danh sách file: ' + err.message);
-    });
-}
-
-function renderFileList(files) {
-    // fileListContainer.innerHTML = ''; // Xóa danh sách cũ
-
-    if (!files || files.length === 0) {
-        fileListContainer.innerHTML = '<p>Chưa có file nào được tải lên.</p>';
-        return;
-    }
-
-    files.forEach(file => {
-        const fileItem = document.createElement('div');
-        fileItem.className = 'file-item';
-        fileItem.innerHTML = `
-            <span>${file.filename} (${(file.size / 1024).toFixed(2)} KB)</span>
-            <a href="page2.html">
-                <button style="cursor: pointer;">🖨️</button>
-            </a>
-            <button onclick="deleteFile('${file._id}')">&#128465</button>
-        `;
-        fileListContainer.appendChild(fileItem);
-    });
-}
-
-function deleteFile(fileId) {
-    fetch(`http://localhost:3000/file/${fileId}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${token}`, // Token hợp lệ
-        },
-    })
-    .then(response => {if (!response.ok) {
-        throw new Error(`Lỗi khi xóa file: ${response.status}`);
-    }
-    return response.json();})
-    .then(data => {
-        if (data.success) {
-			alert('Không thể xóa file! Lỗi từ API: ' + data.message);
-        } else {
-			alert('Xóa file thành công!');
-            fetchFileList(); // Cập nhật danh sách file
-        }
-    })
-    .catch(err => {
-        console.error('Lỗi:', err);
-        alert('Đã có lỗi xảy ra khi xóa file: ' + err.message);
-    });
-}
-
-// Lắng nghe sự kiện khi người dùng chọn file
-fileInput.addEventListener('change', function () {
-    const files = fileInput.files;
-
-    if (files.length === 0) {
-        fileNameText.textContent = 'Không tệp nào được chọn';
-        alert('Vui lòng chọn ít nhất một file!');
-        return;
-    }
-
-    fileNameText.textContent = `${files.length} tệp đã chọn`;
-
-    Array.from(files).forEach(file => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('filename', file.name);
-        formData.append('size', file.size);
-        formData.append('contentType', file.type);
-
-        fetch('http://localhost:3000/file/upload', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`, // Dùng token trực tiếp trong mã
-            },
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(`Tải file "${file.name}" thành công!`);
-                fetchFileList(); // Cập nhật danh sách file
-            } else {
-                alert(`Lỗi: ${data.message}`);
-            }
-        })
-        .catch(err => console.error('Lỗi:', err));
-    });
-});
-
-// Tải file lên khi người dùng nhấn nút
-document.getElementById('uploadButton').addEventListener('click', function () {
-    fileInput.click(); // Mở hộp thoại chọn file
-});
-
-// Gọi hàm để tải danh sách file ngay khi trang được tải
-document.addEventListener('DOMContentLoaded', fetchFileList);
 </script>
 
 </body>
