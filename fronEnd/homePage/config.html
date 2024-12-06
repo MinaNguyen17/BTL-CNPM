@@ -54,32 +54,83 @@
 	
 	<div id="flex_container">
 		<div id="left_side">
- 
-                    <h1 class="title" style="display: block;">In tài liệu</h1>
-                    <p class="subtitle">Đăng tải tài liệu bạn muốn in</p>
+            <div class="container">
+                <div class="preview">
+                    <!-- <p><strong>Bản xem trước</strong></p>
+                    <img src="placeholder.png" alt="Document Preview">
+                    <p>Trang 1/12</p> -->
+                    <input type="file" id="file-input" accept="application/pdf">
+        
+            <div id="pdf-container">
+                <!-- Canvas để hiển thị các trang PDF -->
+                <div id="canvas-container"></div>
                 
-            <!-- Bao ngoài ô tải file để tạo viền ngoài -->
-            <div class="upload-box-wrapper">
-                <!-- Ô tải file với viền trong đứt -->
-                <div class="upload-box">
-                    <input type="file" id="fileInput" multiple style="display:none;">
-                    <button id="uploadButton">Tải file lên</button>
-                    <p id="fileNameText">Không tệp nào được chọn</p>
+                <!-- Điều khiển chuyển trang -->
+                <div>
+                    <button id="prev-page">Trang trước</button>
+                    <span id="page-info">Trang 1/1</span>
+                    <button id="next-page">Trang sau</button>
                 </div>
             </div>
-    
-            <!-- Uploaded Files List -->
-            <div class="file-list-box-wrapper">
-            <div class="file-list-box">
-            <div class="file-list">
-                <h1>Những file đã tải lên</h1>
-                <div class="uploaded-files" id="fileListContainer">
-                    <p>(Chưa có file nào được tải lên)</p>
+                </div>
+        
+                <div class="form-container">
+                    <h1 class="title">In tài liệu</h1>
+        
+                    <div class="form-group">
+                        <label for="file-name">Tên tài liệu:</label>
+                        <input type="text" id="file-name" value="Lorem ipsum 1" disabled>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="copies">Số bản in:</label>
+                        <input type="number" id="copies" value="1" min="1">
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="sides">Số mặt:</label>
+                        <select id="sides">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                        </select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="layout">Bố cục:</label>
+                        <select id="layout">
+                            <option value="portrait">Dọc</option>
+                            <option value="landscape">Ngang</option>
+                        </select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="paper-size">Cỡ giấy:</label>
+                        <select id="paper-size">
+                            <option value="a4">A4</option>
+                            <option value="a3" selected>A3</option>
+                        </select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="page-range">Trang in:</label>
+                        <input type="text" id="page-range" placeholder="VD: 1-5, ...">
+                    </div>
+        
+                    <div class="form-group">
+                        <label>Số trang cần in:</label>
+                        <p id="total-pages">20</p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label>Số trang in còn lại:</label>
+                        <p id="remaining-pages">20</p>
+                    </div>
+        
+                    <div class="footer">
+                        <button id="print-button">In</button>
+                    </div>
                 </div>
             </div>
-            </div>
-            </div>
-          
 		
 		</div>
 
@@ -179,8 +230,7 @@
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="../static/js/main.js"></script>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
-  <script src="../static/script.js">
-</script>
-
+  <script src="../static/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </body>
 </html>
