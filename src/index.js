@@ -45,12 +45,27 @@ app.get("/", (req, res) => {
 });
 
 //print
-app.get("/homePage/uploadfile", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/homePage/uploadfile.html"));
+app.get("/print/uploadFile", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/print/uploadFile.html"));
 });
 
 app.get("/homePage/config", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/homePage/config.html"));
+  res.sendFile(path.join(__dirname, "../fronEnd/print/config.html"));
+});
+
+//history
+app.get("/history/history", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/history/history.html"));
+});
+
+//printerList
+app.get("/printerList/printerList", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/printerList/printerList.html"));
+});
+
+//successPrinting
+app.get("/successPrinting/successPrinting", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/successPrinting/successPrinting.html"));
 });
 
 
