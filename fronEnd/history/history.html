@@ -87,70 +87,70 @@
     <div id="loading">Đang tải dữ liệu...</div>
     <div id="error" style="color: red;"></div>
 
-    <script>
-        // Hàm gọi API và hiển thị dữ liệu
-        function fetchPrintLogs() {
-            // URL của API
-            const url = "http://localhost:3000/printer/log";
-
-            // Token của bạn
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQwMDkzOCwiZXhwIjoxNzMzNDg3MzM4fQ.FTFs3rPr7F0krqXkSDCc7KdbgkoTIiOZbT99JGhlZxc"; // Thay YOUR_ACCESS_TOKEN bằng mã token thực tế
-
-            // Gọi API bằng fetch
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Thêm token vào header
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Lỗi khi gọi API: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const tableBody = document.querySelector("#print-log-table tbody");
-                const loadingElement = document.getElementById("loading");
-                const errorElement = document.getElementById("error");
-
-                // Ẩn thông báo loading
-                loadingElement.style.display = "none";
-
-                // Xóa dữ liệu cũ trong bảng (nếu có)
-                tableBody.innerHTML = "";
-
-                // Kiểm tra nếu dữ liệu là một mảng
-                if (Array.isArray(data)) {
-                    // Duyệt qua từng mục trong dữ liệu và tạo các dòng bảng
-                    data.forEach(log => {
-                        const row = document.createElement("tr");
-                        row.innerHTML = `
-                            <td>${log._id}</td>
-                            <td>${log.filename}</td>
-                            <td>${log.printerName}</td>
-                            <td>${log.__v}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                } else {
-                    errorElement.textContent = "Dữ liệu trả về không hợp lệ.";
-                }
-            })
-            .catch(error => {
-                const errorElement = document.getElementById("error");
-                const loadingElement = document.getElementById("loading");
-
-                // Hiển thị lỗi và ẩn thông báo loading
-                loadingElement.style.display = "none";
-                errorElement.textContent = `Lỗi: ${error.message}`;
-            });
-        }
-
-        // Gọi hàm fetchPrintLogs khi trang web tải
-        window.onload = fetchPrintLogs;
-    </script>
+	<script>
+		// Hàm gọi API và hiển thị dữ liệu
+		function fetchPrintLogs() {
+			const url = "http://localhost:3000/printer/log";
+			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE"; // Thay YOUR_ACCESS_TOKEN bằng mã token thực tế
+	
+			// Gọi API bằng fetch
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${token}`,  // Thêm token vào header
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Lỗi khi gọi API: ${response.statusText}`);
+				}
+				return response.json();
+			})
+			.then(data => {
+				const tableBody = document.querySelector("#print-log-table tbody");
+				const loadingElement = document.getElementById("loading");
+				const errorElement = document.getElementById("error");
+	
+				// Ẩn thông báo loading
+				loadingElement.style.display = "none";
+	
+				// Xóa dữ liệu cũ trong bảng (nếu có)
+				tableBody.innerHTML = "";
+	
+				// Kiểm tra nếu dữ liệu là một mảng
+				if (Array.isArray(data)) {
+					// Duyệt qua từng mục trong dữ liệu và tạo các dòng bảng
+					data.forEach(log => {
+						const row = document.createElement("tr");
+						row.innerHTML = `
+							<td>${log._id}</td>
+							<td>${log.filename}</td>
+							<td>${log.printerName}</td>
+							<td>${log.__v}</td>
+						`;
+						tableBody.appendChild(row);
+					});
+				} else {
+					errorElement.textContent = "Dữ liệu trả về không hợp lệ.";
+				}
+			})
+			.catch(error => {
+				const errorElement = document.getElementById("error");
+				const loadingElement = document.getElementById("loading");
+	
+				// Hiển thị lỗi và ẩn thông báo loading
+				loadingElement.style.display = "none";
+				errorElement.textContent = `Lỗi: ${error.message}`;
+	
+				// Log thêm lỗi để dễ dàng xác định
+				console.error('Error fetching print logs:', error);
+			});
+		}
+	
+		// Gọi hàm fetchPrintLogs khi trang web tải
+		window.onload = fetchPrintLogs;
+	</script>
 		</div>
 
 		<div id="right_side">

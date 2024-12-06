@@ -4,7 +4,7 @@ const path = require("path");
 const mainRoutes = require("./routes/index");
 const connectDB = require("./config/db.js");
 const dotenv = require("dotenv");
-
+const cors = require("cors"); // import cors package
 // Load environment variables
 dotenv.config();
 connectDB();
@@ -18,8 +18,6 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
 
-// Routes
-app.use("/", mainRoutes);
 // Route để render file HTML từ thư mục frontend
 
 app.get("/login/index", (req, res) => {
@@ -51,7 +49,15 @@ app.get("/homePage/config", (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../fronEnd/homePage/index.html"));
 });
+// Cấu hình CORS
+app.use(cors({
+  origin: '*', // Cho phép tất cả các domain
+  methods: 'GET,POST',  // Các phương thức được phép
+  allowedHeaders: 'Content-Type, Authorization'  // Các header được phép
+}));
 
+// Routes
+app.use("/", mainRoutes);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
