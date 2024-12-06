@@ -49,7 +49,7 @@
 	     <section class="login-form">
 	        <h2 style="color: #05318E">Đăng nhập bằng tài khoản của bạn</h2>
 
-	        <button onclick="window.location.href='login2.html'" class="accordion" onclick="togglePanel('panel1')">Tài khoản HCMUT (HCMUT account)</button>
+	        <button onclick="window.location.href='/login/login'" class="accordion" onclick="togglePanel('panel1')">Tài khoản HCMUT (HCMUT account)</button>
 
 	        <!-- <div id="panel1" class="panel">
 	            <form action="#">
@@ -63,10 +63,10 @@
 
 	        <button class="accordion" onclick="togglePanel('panel2')">Quản trị viên</button>	
 	        <div id="panel2" class="panel">
-	            <form action="#">
-	                <input type="text" id="username" name="username" placeholder="Tên tài khoản" required>
+	            <form action="#" id="admin-login-form">
+	                <input type="text" id="admin-username" name="username" placeholder="Tên tài khoản" required>
 	                <div class="login">
-	                	<input  type="password" id="password" name="password" placeholder="Mật khẩu" required>
+	                	<input  type="password" id="admin-password" name="password" placeholder="Mật khẩu" required>
 	                	<button type="button" class="btn btn-outline-success">Đăng Nhập </button>
 	            	</div>
 	            </form>
@@ -87,4 +87,36 @@
 		</div>
 	</footer>
 </body>
+<script>
+document.querySelector('#admin-login-form').addEventListener('submit', async function (e) {
+    e.preventDefault(); // Ngăn chặn gửi form mặc định
+
+    const username = document.querySelector('#admin-username').value; // ID của input tài khoản quản trị
+    const password = document.querySelector('#admin-password').value; // ID của input mật khẩu quản trị
+
+    try {
+        // Gửi yêu cầu tới API đăng nhập
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Đăng nhập quản trị viên thành công!');
+            localStorage.setItem('token', data.token); // Lưu token vào localStorage để xác thực
+            window.location.href = '/admin-dashboard.html'; // Điều hướng đến trang quản trị viên
+        } else {
+            alert(data.message || 'Đăng nhập thất bại.');
+        }
+    } catch (error) {
+        console.error('Lỗi kết nối tới server:', error);
+        alert('Không thể kết nối tới server. Vui lòng thử lại sau.');
+    }
+});
+</script>
 </html>
