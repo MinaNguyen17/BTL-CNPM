@@ -201,6 +201,10 @@ const fileNameText = document.getElementById('fileNameText');
 
 // Để token trực tiếp trong mã (đảm bảo token hợp lệ)
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE";
+function navigateToConfig(fileId) {
+    localStorage.setItem('fileId', fileId);
+    window.location.href = 'config.html';
+}
 
 // Lấy danh sách các file đã tải lên
 function fetchFileList() {
@@ -242,15 +246,15 @@ function renderFileList(files) {
         fileListContainer.innerHTML = '<p>Chưa có file nào được tải lên.</p>';
         return;
     }
-
+	// <a href="config	.html?fileID=${file._id}">
+    //             <button style="cursor: pointer;" onclick="navigateToConfig('${file._id}')">🖨️</button>
+    //         </a>
     files.forEach(file => {
         const fileItem = document.createElement('div');
         fileItem.className = 'file-item';
         fileItem.innerHTML = `
             <span>${file.filename} (${(file.size / 1024).toFixed(2)} KB)</span>
-            <a href="config	.html">
-                <button style="cursor: pointer;">🖨️</button>
-            </a>
+			<button onclick="navigateToConfig('${file._id}')">🖨️</button>
             <button onclick="deleteFile('${file._id}')">&#128465</button>
         `;
         fileListContainer.appendChild(fileItem);

@@ -66,7 +66,7 @@
                         <!-- Điều khiển chuyển trang -->
                         <div>
                             <button id="prev-page">Trang trước</button>
-                            <span id="page-info">Trang 1/1</span>
+                            <span id="page-info"></span>
                             <button id="next-page">Trang sau</button>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                     </div>
 
                     <div class="footer">
-                        <button id="print-button">In</button>
+                        <button id="print-button" >In</button>
                     </div>
                 </div>
             </div>
@@ -231,61 +231,87 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </body>
 <script>
-	const fileID = "67504d50eb35a49f6f900687"; // ID của file
-	const printerID = "67504a61eb35a49f6f90067d"; // ID của máy in
+
 	const apiUrl = "http://localhost:3000/printer/send";
 
-	// Khởi tạo PDF.js
-	const canvas = document.getElementById("pdf-canvas");
-	const ctx = canvas.getContext("2d");
+	const fileId = localStorage.getItem('fileId');
+	const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE";
+if (fileId) {
+    console.log('File ID:', fileId);
+    // Gọi API hoặc xử lý tiếp
+} else {
+    alert('Không tìm thấy file ID.');
+}
+
 	let pdfDoc = null;
 	let pageNum = 1;
+	let totalpages = 0;
 
-	// Hàm render một trang PDF
+fetch(`http://localhost:3000/file/${fileId}`, {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${token}`,
+    },
+})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Lỗi ${response.status}: Không thể truy cập file.`);
+        }
+        return response.json();
+    })
+    .then(fileData => {
+        if (fileData.data && fileData.data.data) {
+            const uint8Array = new Uint8Array(fileData.data.data); // Chuyển Buffer thành Uint8Array
+            const blob = new Blob([uint8Array], { type: fileData.contentType }); // Tạo Blob từ Uint8Array
+            const url = URL.createObjectURL(blob); // Tạo URL từ Blob
+
+			document.getElementById('file-name').value = fileData.filename;
+
+            // Hiển thị file PDF bằng PDF.js
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                pdfDoc = pdf;
+                totalPages = pdf.numPages;
+                document.getElementById('page-info').textContent = `Trang 1 / ${totalPages}`;
+                renderPage(1); // Hiển thị trang đầu tiên
+            }).catch(error => console.error('Lỗi khi tải PDF:', error));
+        } else {
+            alert('Dữ liệu từ API không hợp lệ.');
+        }
+    })
+    .catch(error => console.error('Lỗi khi tải file:', error));
+
 	function renderPage(pageNum) {
-		pdfDoc.getPage(pageNum).then((page) => {
-			const viewport = page.getViewport({ scale: 1.5 });
-			canvas.height = viewport.height;
-			canvas.width = viewport.width;
+    pdfDoc.getPage(pageNum).then(page => {
+        const viewport = page.getViewport({ scale: 1.5 }); // Tăng tỉ lệ để hiển thị rõ
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
 
-			const renderContext = {
-				canvasContext: ctx,
-				viewport: viewport,
-			};
-			page.render(renderContext);
-		});
-	}
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-	// Tải file PDF từ server
-	fetch(apiUrl, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ fileID, printerID }),
-	})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error("Lỗi khi tải file từ server");
-			}
-			return response.blob();
-		})
-		.then((blob) => {
-			const fileReader = new FileReader();
-			fileReader.onload = function () {
-				const pdfData = new Uint8Array(this.result);
-				pdfjsLib.getDocument({ data: pdfData }).promise.then((pdf) => {
-					pdfDoc = pdf;
-					document.getElementById("page-info").textContent = `Trang 1 / ${pdf.numPages}`;
-					renderPage(pageNum);
-				});
-			};
-			fileReader.readAsArrayBuffer(blob);
-		})
-		.catch((error) => {
-			console.error("Lỗi:", error);
-			alert("Không thể tải tài liệu. Vui lòng thử lại!");
-		});
-		
+        const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport,
+        };
+
+        page.render(renderContext).promise.then(() => {
+            document.getElementById('page-info').textContent = `Trang ${pageNum} / ${pdfDoc.numPages}`;
+        });
+    }).catch(error => console.error('Lỗi khi render trang:', error));
+}
+document.getElementById('prev-page').addEventListener('click', () => {
+    if (pageNum <= 1) return;
+    pageNum--;
+    renderPage(pageNum);
+});
+
+document.getElementById('next-page').addEventListener('click', () => {
+    if (pageNum >= pdfDoc.numPages) return;
+    pageNum++;
+    renderPage(pageNum);
+});
+document.getElementById('print-button').addEventListener('click', () => {
+	window.location.href = '../printer list/printerlist.html';
+});
 </script>
 </html>
