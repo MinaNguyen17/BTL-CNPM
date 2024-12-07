@@ -354,9 +354,10 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             document.getElementById('page-range').addEventListener('input', function () {
-                const pages = calculatePages(this.value);
-                document.getElementById('remaining-pages').textContent = pages;
-            });
+    const pageRange = this.value;
+    const remainingPages = calculatePages(pageRange, totalPages);
+    document.getElementById('remaining-pages').textContent = remainingPages;
+});
 
             document.getElementById('print-button').addEventListener('click', function () {
                 const config = {
