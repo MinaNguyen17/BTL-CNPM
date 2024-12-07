@@ -332,43 +332,62 @@ document.addEventListener('DOMContentLoaded', function () {
             const totalPages = 20; // Số trang giả định
             document.getElementById('total-pages').textContent = totalPages;
 
-            const calculatePages = (range) => {
-                if (!range) return totalPages;
+            function calculatePages(pageRange, totalPages, copies) {
+    if (!pageRange || pageRange.trim() === '') {
+        return totalPages * copies; // Nếu không nhập, in tất cả các trang * số bản in
+    }
 
-                const ranges = range.split(',').map(r => r.trim());
-                const pages = new Set();
+    const ranges = pageRange.split(',').map(r => r.trim());
+    const pagesSet = new Set();
 
-                ranges.forEach(r => {
-                    if (r.includes('-')) {
-                        const [start, end] = r.split('-').map(Number);
-                        for (let i = start; i <= end && i <= totalPages; i++) {
-                            pages.add(i);
-                        }
-                    } else {
-                        const page = parseInt(r, 10);
-                        if (page >= 1 && page <= totalPages) pages.add(page);
-                    }
-                });
+    ranges.forEach(range => {
+        if (range.includes('-')) {
+            const [start, end] = range.split('-').map(Number);
+            if (!isNaN(start) && !isNaN(end) && start <= end) {
+                for (let i = Math.max(1, start); i <= Math.min(end, totalPages); i++) {
+                    pagesSet.add(i);
+                }
+            }
+        } else {
+            const page = parseInt(range, 10);
+            if (!isNaN(page) && page >= 1 && page <= totalPages) {
+                pagesSet.add(page);
+            }
+        }
+    });
 
-                return pages.size;
-            };
-
-            document.getElementById('page-range').addEventListener('input', function () {
+    return pagesSet.size * copies; // Tổng số trang hợp lệ * số bản in
+}
+document.getElementById('page-range').addEventListener('input', function () {
     const pageRange = this.value;
-    const remainingPages = calculatePages(pageRange, totalPages);
+    const copies = parseInt(document.getElementById('copies').value, 10) || 1; // Lấy số bản in
+    const remainingPages = calculatePages(pageRange, totalPages, copies);
+    document.getElementById('remaining-pages').textContent = remainingPages;
+});
+document.getElementById('copies').addEventListener('input', function () {
+    const pageRange = document.getElementById('page-range').value;
+    const copies = parseInt(this.value, 10) || 1;
+    const remainingPages = calculatePages(pageRange, totalPages, copies);
     document.getElementById('remaining-pages').textContent = remainingPages;
 });
 
-            document.getElementById('print-button').addEventListener('click', function () {
-                const config = {
-                    copies: document.getElementById('copies').value,
-                    sides: document.getElementById('sides').value,
-                    pageRange: document.getElementById('page-range').value || 'Tất cả',
-                    remainingPages: document.getElementById('remaining-pages').textContent
-                };
-                localStorage.setItem('printConfig', JSON.stringify(config));
-                window.location.href = '../printerlist/printerlist';
-            });
+document.getElementById('print-button').addEventListener('click', function () {
+    const pageRange = document.getElementById('page-range').value;
+    const copies = parseInt(document.getElementById('copies').value, 10) || 1;
+    const remainingPages = calculatePages(pageRange, totalPages, copies);
+
+    const config = {
+        copies: copies,
+        sides: document.getElementById('sides').value,
+        layout: document.getElementById('layout').value,
+        paperSize: document.getElementById('paper-size').value,
+        pageRange: pageRange || 'Tất cả',
+        remainingPages: remainingPages
+    };
+
+    localStorage.setItem('printConfig', JSON.stringify(config));
+    window.location.href = '../printerlist/printerlist.html';
+});
         });
 </script>
 </html>
