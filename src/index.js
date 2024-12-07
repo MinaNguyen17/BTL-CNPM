@@ -72,9 +72,12 @@ app.get("/successPrinting/successPrinting", (req, res) => {
 // Cấu hình CORS
 app.use(cors({
   origin: '*', // Cho phép tất cả các domain
-  methods: 'GET,POST',  // Các phương thức được phép
+  methods: 'GET,POST,DELETE',  // Các phương thức được phép
   allowedHeaders: 'Content-Type, Authorization'  // Các header được phép
 }));
+
+// Routes
+app.use("/", mainRoutes);
 
 const PORT = process.env.PORT || 3000;
 
