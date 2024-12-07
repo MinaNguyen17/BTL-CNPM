@@ -242,7 +242,7 @@
 	const apiUrl = "http://localhost:3000/printer/send";
 
 	const fileId = localStorage.getItem('fileId');
-	const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE";
+	const token = localStorage.getItem('token');
 if (fileId) {
     console.log('File ID:', fileId);
     // Gọi API hoặc xử lý tiếp
