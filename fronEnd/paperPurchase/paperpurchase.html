@@ -20,7 +20,7 @@
     <!--css cho stickychop -->
     <title>Mua giấy</title>
 </head>
-
+ 
 <body>
     <!-- Header Navigation -->
     <div class="sticky-top">
@@ -60,7 +60,7 @@
                     <div class="card p-4">
                         <form>
                             <div class="mb-3">
-                                <p>Số lượng trang hiện có: 12</p>
+                                <p>Số lượng trang hiện có: <span id="currentPages">12</span></p>
                                 <!-- <input type="text" class="form-control" value="12" readonly> -->
                             </div>
                             <div class="mb-3 d-flex row">
@@ -68,7 +68,7 @@
                                 <input type="number" class="form-control col pr-3" placeholder="Nhập số lượng"
                                     id="quantityInput">
                             </div>
-                            <button type="button" class="custom-button">Xác nhận mua</button>
+                            <button type="button" class="custom-button" id="confirmButton">Xác nhận mua</button>
                             <small class="text-muted mt-2 d-block">*Vui lòng truy cập BKPay để thanh toán</small>
                         </form>
                     </div>
@@ -86,7 +86,7 @@
                                 <th>Đơn giá (đ)</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="purchaseHistory">
                             <tr>
                                 <td>05/12/2024 15:21:30</td>
                                 <td>10</td>
@@ -229,42 +229,118 @@
     crossorigin="anonymous"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const dropdown = document.querySelector(".dropdown");
-        const dropbtn = document.querySelector(".dropbtn");
+        // Initialize currentPages if not already set
+        if (!localStorage.getItem("currentPages")) {
+            localStorage.setItem("currentPages", "12"); // Default value
+        }
 
-        dropbtn.addEventListener("click", function (e) {
-            e.stopPropagation(); // Ngăn chặn sự kiện lan ra ngoài
-            dropdown.classList.toggle("show"); // Thêm/xóa lớp .show để hiển thị/ẩn dropdown
+        // Initialize purchase history if not already set
+        if (!localStorage.getItem("purchaseHistory")) {
+            localStorage.setItem("purchaseHistory", JSON.stringify([])); // Default empty history
+        }
+
+        // Get elements
+        const currentPagesElement = document.getElementById("currentPages");
+        const purchaseHistory = document.getElementById("purchaseHistory");
+        const quantityInput = document.getElementById("quantityInput");
+        const button = document.querySelector(".custom-button");
+
+        // Update the displayed currentPages value
+        currentPagesElement.innerText = localStorage.getItem("currentPages");
+
+        // Load purchase history from localStorage and render it
+        const history = JSON.parse(localStorage.getItem("purchaseHistory"));
+        history.forEach((entry) => {
+            const newRow = `
+                <tr>
+                    <td>${entry.timestamp}</td>
+                    <td>${entry.quantity}</td>
+                    <td>${entry.unitPrice}</td>
+                </tr>
+            `;
+            purchaseHistory.insertAdjacentHTML("afterbegin", newRow);
         });
 
-        // Ẩn dropdown nếu click bên ngoài
+        // Dropdown functionality
+        const dropdown = document.querySelector(".dropdown");
+        const dropbtn = document.querySelector(".dropbtn");
+        dropbtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            dropdown.classList.toggle("show");
+        });
         document.addEventListener("click", function () {
             dropdown.classList.remove("show");
         });
-    });
-    // Create a new Popup instance
-    const myPopup = new Popup({
-        id: "my-popup", // Unique ID for the popup
-        title: "Xác nhận đăng ký mua thành công", // Title of the popup
-        content: `
-            Vui lòng truy cập BKPay để thanh toán
-            `,
-        closeable: true // Ensure the popup is closeable
-    },
-    );
 
-    // Attach an event listener to the button
-    const button = document.querySelector(".custom-button");
-    button.addEventListener("click", () => {
-        myPopup.show(); // Show the popup on button click
-    });
+        // Create Popup instance
+        const myPopup = new Popup({
+            id: "my-popup",
+            title: "Xác nhận đăng ký mua thành công",
+            content: `Vui lòng truy cập BKPay để thanh toán`,
+            closeable: true,
+        });
 
-    document.addEventListener("click", (event) => {
-        if (event.target.classList.contains("popup-close")) {
-            myPopup.hide(); // Manually hide the popup
-        }
-    });
+        // Handle button click
+        button.addEventListener("click", () => {
+            const quantity = parseInt(quantityInput.value, 10);
+            const unitPrice = 700; // Fixed price per page
 
+            if (!quantity || quantity <= 0) {
+                alert("Vui lòng nhập số lượng hợp lệ.");
+                return;
+            }
+
+            // Update currentPages in localStorage
+            const updatedPages = parseInt(localStorage.getItem("currentPages"), 10) + quantity;
+            localStorage.setItem("currentPages", updatedPages.toString());
+
+            // Update the displayed currentPages value
+            currentPagesElement.innerText = updatedPages;
+
+            // Get the current timestamp
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleString("en-GB"); // Format: dd/mm/yyyy hh:mm:ss
+
+            // Add a new row to the table
+            const newRow = `
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td>${quantity}</td>
+                        <td>${unitPrice}</td>
+                    </tr>
+                `;
+            purchaseHistory.insertAdjacentHTML("afterbegin", newRow);
+
+            // Add the new entry to localStorage history
+            const newEntry = {
+                timestamp: formattedDate,
+                quantity: quantity,
+                unitPrice: unitPrice
+            };
+            history.push(newEntry);
+            localStorage.setItem("purchaseHistory", JSON.stringify(history));
+            
+            // Clear the input field
+            quantityInput.value = "";
+
+            // Show the popup
+            myPopup.show();
+        });
+
+        // Listen for changes to localStorage (sync updates across pages)
+        window.addEventListener("storage", function (event) {
+            if (event.key === "currentPages") {
+                currentPagesElement.innerText = event.newValue;
+            }
+        });
+
+        // Handle popup close button
+        document.addEventListener("click", (event) => {
+            if (event.target.classList.contains("popup-close")) {
+                myPopup.hide();
+            }
+        });
+    });
 </script>
 
 </html>
