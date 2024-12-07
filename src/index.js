@@ -49,6 +49,10 @@ app.get("/print/uploadFile", (req, res) => {
   res.sendFile(path.join(__dirname, "../fronEnd/print/uploadFile.html"));
 });
 
+app.get("/print/config", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/print/config.html"));
+});
+
 app.get("/homePage/config", (req, res) => {
   res.sendFile(path.join(__dirname, "../fronEnd/print/config.html"));
 });
