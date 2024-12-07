@@ -72,6 +72,11 @@ app.get("/successPrinting/successPrinting", (req, res) => {
   res.sendFile(path.join(__dirname, "../fronEnd/successPrinting/successPrinting.html"));
 });
 
+//buypaper
+app.get("/paperPurchase/paperpurchase", (req, res) => {
+  res.sendFile(path.join(__dirname, "../fronEnd/paperPurchase/paperpurchase.html"));
+});
+
 
 // Cấu hình CORS
 app.use(cors({

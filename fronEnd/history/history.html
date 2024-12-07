@@ -91,7 +91,8 @@
 		// Hàm gọi API và hiển thị dữ liệu
 		function fetchPrintLogs() {
 			const url = "http://localhost:3000/printer/log";
-			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE"; // Thay YOUR_ACCESS_TOKEN bằng mã token thực tế
+			const token = localStorage.getItem('token');
+
 	
 			// Gọi API bằng fetch
 			fetch(url, {
