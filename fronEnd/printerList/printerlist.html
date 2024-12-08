@@ -192,8 +192,11 @@
 					const lastEntry = history[history.length - 1];
 					lastEntry.printerCode = printerCode;
 					lastEntry.timestamp = timestamp;
+					const quantity = lastEntry.pagenums;
 					// Save the updated history back to localStorage
 					localStorage.setItem("printingHistory", JSON.stringify(history));
+					const updatedPages = parseInt(localStorage.getItem("currentPages"), 10) - quantity;
+					localStorage.setItem("currentPages", updatedPages.toString());
 				});		
 			</script>
 		</div>

@@ -75,7 +75,7 @@
 					<div class="content_title" style="color:white; background:#0223C8">In tài liệu</div>
 					<div class="content_desc" style="color:#373C57 ;background:#DBDCE0">
 						<br>
-						Bạn còn 10 trang giấy in
+						Bạn còn <span id="total-pages"></span> trang giấy in
 						<br><br>
 						<a href="/print/uploadFile">
 							<button style="color: #ffffff; border-radius: 6px; cursor: pointer; transition: background-color 0.2s ease; background-color: #3B9ECC;">
@@ -91,7 +91,7 @@
 					<div class="content_title" style="color:white; background:#0223C8">Xem lịch sử in</div>
 					<div class="content_desc" style="color:#373C57 ;background:#DBDCE0">
 						<br>
-						Bạn có 10 lần in trong lịch sử
+						Bạn có <span id="printing-times"></span> lần in trong lịch sử
 						<br><br>
 						<button style="color: #ffffff; border-radius: 6px; cursor: pointer;transition: background-color 0.2s ease; background-color: #3B9ECC;">Xem</button>
 						<br><br>
@@ -155,9 +155,6 @@
 	            <section class="ftco-section">
 	                <div class="container">
 	                    <div class="row justify-content-center">
-	                        <!-- <div class="col-md-6 text-center mb-5">
-	                            <h2 class="heading-section">Lịch</h2>
-	                        </div> -->
 	                    </div>
 	                    <div class="row">
 	                        <div class="col-md-12">
@@ -199,6 +196,16 @@
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+		const currentPagesElement = document.getElementById("total-pages");
+		const printingTimes = document.getElementById("printing-times");
+		if (!localStorage.getItem("currentPages")) {
+			localStorage.setItem("currentPages", "12");
+		}
+		const printingHistory = JSON.parse(localStorage.getItem("printingHistory")) || [];
+		const numberOfEntries = printingHistory.length;
+		
+		currentPagesElement.innerText = localStorage.getItem("currentPages");
+		printingTimes.innerText = numberOfEntries;
         const dropdown = document.querySelector(".dropdown");
         const dropbtn = document.querySelector(".dropbtn");
 

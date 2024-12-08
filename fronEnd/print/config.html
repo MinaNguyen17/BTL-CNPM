@@ -267,6 +267,7 @@
 					document.getElementById('page-info').textContent = `Trang 1 / ${totalPages}`;
 					document.getElementById('remaining-pages').textContent = totalPages;
 					renderPage(1); // Hiển thị trang đầu tiên
+					updateRemainingPages();
 				}).catch(error => console.error('Lỗi khi tải PDF:', error));
 			} else {
 				alert('Dữ liệu từ API không hợp lệ.');
@@ -391,6 +392,7 @@
 			updateButtonState();
 		}
 		function updateButtonState() {
+			// buyPaperwarning.style.display = 'none';
 			const currentPages = parseInt(localStorage.getItem("currentPages"), 10);
 			const remainingPages = parseInt(remainingPagesElement.textContent, 10);
 			console.log("current pages : ", currentPages);
@@ -433,19 +435,30 @@
 			if (!localStorage.getItem("printingHistory")) {
 				localStorage.setItem("printingHistory", JSON.stringify([])); // Default empty history
 			}
-			const newEntry = {
-				docname: docname,
-				pagenums: remainingPages
-			};
+
 			let history = JSON.parse(localStorage.getItem("printingHistory")) || [];
-			history.push(newEntry);
+			// Check the last entry
+			const lastEntry = history[history.length - 1];
+			if (lastEntry && (!lastEntry.printerCode || !lastEntry.timestamp)) {
+				// Update the last entry if missing printerCode or timestamp
+				lastEntry.docname = docname; // Update docname if needed
+				lastEntry.pagenums = remainingPages; // Update page numbers if needed
+			} else {
+				// Create a new entry
+				const newEntry = {
+					docname: docname,
+					pagenums: remainingPages
+				};
+				history.push(newEntry);
+			}
 
 			localStorage.setItem("printingHistory", JSON.stringify(history));
 			localStorage.setItem('printConfig', JSON.stringify(config)); // Save to localStorage
 			window.location.href = '../printerlist/printerlist'; // Redirect to printer list
 		});
-
+		
 		updateButtonState();
+		updateRemainingPages();
 		// const currentPagesElement = document.getElementById("total-pages");
 
 		// // Initialize currentPages if not already set
