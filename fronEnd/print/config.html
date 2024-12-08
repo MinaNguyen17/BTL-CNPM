@@ -101,8 +101,8 @@
 					<div class="form-group">
 						<label for="sides">Số mặt:</label>
 						<select id="sides">
-							<option value="1">1</option>
-							<option value="2" selected>2</option>
+							<option value="1" selected>1</option>
+							<option value="2">2</option>
 						</select>
 					</div>
 
@@ -134,12 +134,16 @@
 
 					<div class="form-group">
 						<label>Số trang in còn lại:</label>
-						<p id="total-pages"></p>
+						<span id="total-pages"></span>
 					</div>
-
+					<div class="visible" id="buypaperalert">
+						Không đủ giấy, vui lòng mua thêm trang in. 
+						<a href="/paperPurchase/paperpurchase" id="buy-paper-link" target="_blank">Mua giấy</a>
+					</div>
 					<div class="footer">
 						<button id="print-button">In</button>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -319,12 +323,6 @@
 			});
 		}).catch(error => console.error('Lỗi khi render trang:', error));
 	}
-	// function loadPDF(pdfDocument) {
-	// 	pdfDoc = pdfDocument; // Set the PDF document globally
-	// 	const totalPages = pdfDoc.numPages;
-	// 	document.getElementById('remaining-pages').textContent = totalPages; // Update the total pages
-	// 	renderPage(1); // Render the first page initially
-	// }
 
 	document.getElementById('prev-page').addEventListener('click', () => {
 		if (pageNum <= 1) return;
@@ -341,73 +339,147 @@
 		window.location.href = '../printerList/printerlist';
 	})
 	document.addEventListener('DOMContentLoaded', function () {
-		// const selectedFile = JSON.parse(localStorage.getItem('selectedFile'));
-		// if (!selectedFile) {
-		// 	alert('Không tìm thấy thông tin file.');
-		// 	return;
-		// }
+		
+		const currentPagesElement = document.getElementById("total-pages");
+		const remainingPagesElement = document.getElementById("remaining-pages");
+		const printButton = document.getElementById("print-button");
+		const buyPaperwarning = document.getElementById("buypaperalert");
 
-		// document.getElementById('file-name').value = selectedFile.name;
+		// Initialize currentPages if not already set
+		if (!localStorage.getItem("currentPages")) {
+			localStorage.setItem("currentPages", "12");
+		}
 
-		// const totalPages = 20; // Số trang giả định
-		// document.getElementById('total-pages').textContent = totalPages;
+		currentPagesElement.innerText = localStorage.getItem("currentPages");
 
-		function calculatePages(pageRange, totalPages, copies) {
+		// Function to calculate the remaining pages based on the input values
+		function calculatePages(pageRange, totalPages, copies, sides, paperSize) {
+			console.log("Input Values:", { pageRange, totalPages, copies, sides, paperSize });
+
+			let remainingPages = totalPages;
 			if (!pageRange || pageRange.trim() === '') {
-				return totalPages * copies; // Nếu không nhập, in tất cả các trang * số bản in
+				console.log("Page range is empty. Defaulting to all pages.");
+				remainingPages = totalPages * copies; // Default: print all pages * copies
+				// return remainingPages;
 			}
+			else {
+				const ranges = pageRange.split(',').map(r => r.trim());
+				const pagesSet = new Set();
 
-			const ranges = pageRange.split(',').map(r => r.trim());
-			const pagesSet = new Set();
-
-			ranges.forEach(range => {
-				if (range.includes('-')) {
-					const [start, end] = range.split('-').map(Number);
-					if (!isNaN(start) && !isNaN(end) && start <= end) {
-						for (let i = Math.max(1, start); i <= Math.min(end, totalPages); i++) {
-							pagesSet.add(i);
+				// Parsing the page range
+				ranges.forEach(range => {
+					if (range.includes('-')) {
+						const [start, end] = range.split('-').map(Number);
+						if (!isNaN(start) && !isNaN(end) && start <= end) {
+							for (let i = Math.max(1, start); i <= Math.min(end, totalPages); i++) {
+								pagesSet.add(i);
+							}
+						} else {
+							console.warn(`Invalid range: "${range}"`);
+						}
+					} else {
+						const page = parseInt(range, 10);
+						if (!isNaN(page) && page >= 1 && page <= totalPages) {
+							pagesSet.add(page);
+						} else {
+							console.warn(`Invalid single page: "${range}"`);
 						}
 					}
-				} else {
-					const page = parseInt(range, 10);
-					if (!isNaN(page) && page >= 1 && page <= totalPages) {
-						pagesSet.add(page);
-					}
-				}
-			});
+				});
 
-			return pagesSet.size * copies; // Tổng số trang hợp lệ * số bản in
+				console.log("Valid Pages Set:", Array.from(pagesSet));
+				remainingPages = pagesSet.size * copies;
+
+			}
+
+
+			// Adjust for sides
+			if (sides === '2') {
+				remainingPages = Math.ceil(remainingPages / 2); // Divide by 2 if sides = 2
+				console.log("Adjusted for double-sided printing:", remainingPages);
+			}
+
+			// Adjust for paper size (A3)
+			if (paperSize.toLowerCase() === 'a3') {
+				remainingPages *= 2; // Multiply by 2 if paper size = A3
+				console.log("Adjusted for A3 paper size:", remainingPages);
+			}
+
+			console.log("Final Remaining Pages:", remainingPages);
+			return remainingPages;
 		}
-		document.getElementById('page-range').addEventListener('input', function () {
-			const pageRange = this.value;
-			const copies = parseInt(document.getElementById('copies').value, 10) || 1; // Lấy số bản in
-			const remainingPages = calculatePages(pageRange, totalPages, copies);
-			document.getElementById('remaining-pages').textContent = remainingPages;
-		});
-		document.getElementById('copies').addEventListener('input', function () {
-			const pageRange = document.getElementById('page-range').value;
-			const copies = parseInt(this.value, 10) || 1;
-			const remainingPages = calculatePages(pageRange, totalPages, copies);
-			document.getElementById('remaining-pages').textContent = remainingPages;
-		});
 
+		// Function to update the remaining pages dynamically
+		function updateRemainingPages() {
+			const pageRange = document.getElementById('page-range').value;
+			const copies = parseInt(document.getElementById('copies').value, 10) || 1;
+			const sides = document.getElementById('sides').value;
+			const paperSize = document.getElementById('paper-size').value;
+			const remainingPages = calculatePages(pageRange, totalPages, copies, sides, paperSize);
+			document.getElementById('remaining-pages').textContent = remainingPages;
+			remainingPagesElement.textContent = remainingPages;
+			updateButtonState();
+		}
+		function updateButtonState() {
+			const currentPages = parseInt(localStorage.getItem("currentPages"), 10);
+			const remainingPages = parseInt(remainingPagesElement.textContent, 10);
+			console.log("current pages : ", currentPages);
+			console.log("remaining pages: ", remainingPages);
+
+			if (currentPages < remainingPages) {
+				printButton.disabled = true;
+				buyPaperwarning.style.display = 'block'; 
+
+				// alert("Please buy more papers.");
+			} else {
+				printButton.disabled = false;
+				buyPaperwarning.style.display = 'none';  // Hide the alert
+			}
+		}
+		// Event listeners to update remaining pages when any of these options change
+		document.getElementById('sides').addEventListener('change', updateRemainingPages);
+		document.getElementById('paper-size').addEventListener('change', updateRemainingPages);
+		document.getElementById('page-range').addEventListener('input', updateRemainingPages);
+		document.getElementById('copies').addEventListener('input', updateRemainingPages);
+
+		// Event listener for the print button to save the configuration to localStorage
 		document.getElementById('print-button').addEventListener('click', function () {
 			const pageRange = document.getElementById('page-range').value;
 			const copies = parseInt(document.getElementById('copies').value, 10) || 1;
-			const remainingPages = calculatePages(pageRange, totalPages, copies);
+			const sides = document.getElementById('sides').value;
+			const paperSize = document.getElementById('paper-size').value;
+			const remainingPages = calculatePages(pageRange, totalPages, copies, sides, paperSize);
 
 			const config = {
 				copies: copies,
-				sides: document.getElementById('sides').value,
+				sides: sides,
 				layout: document.getElementById('layout').value,
-				paperSize: document.getElementById('paper-size').value,
+				paperSize: paperSize,
 				pageRange: pageRange || 'Tất cả',
 				remainingPages: remainingPages
 			};
 
-			localStorage.setItem('printConfig', JSON.stringify(config));
-			window.location.href = '../printerlist/printerlist';
+			localStorage.setItem('printConfig', JSON.stringify(config)); // Save to localStorage
+			window.location.href = '../printerlist/printerlist'; // Redirect to printer list
 		});
+		updateButtonState();
+		// const currentPagesElement = document.getElementById("total-pages");
+
+		// // Initialize currentPages if not already set
+		// if (!localStorage.getItem("currentPages")) {
+		// 	localStorage.setItem("currentPages", "12");
+		// }
+
+		// currentPagesElement.innerText = localStorage.getItem("currentPages");
+
+		// // Listen for localStorage updates
+		// window.addEventListener("storage", (event) => {
+		// 	if (event.key === "currentPages") {
+		// 		currentPagesElement.innerText = event.newValue;
+		// 	}
+		// });
+		// const printButton = document.getElementById("print-button");
+
 	});
 </script>
 
