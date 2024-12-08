@@ -137,42 +137,19 @@
 						<span id="total-pages"></span>
 					</div>
 					<div class="visible" id="buypaperalert">
-						Không đủ giấy, vui lòng mua thêm trang in. 
+						Không đủ giấy, vui lòng mua thêm trang in.
 						<a href="/paperPurchase/paperpurchase" id="buy-paper-link" target="_blank">Mua giấy</a>
 					</div>
 					<div class="footer">
-						<button id="print-button">In</button>
+						<button id="print-button" onclick="saveConfigData()">In</button>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 
 		<div id="right_side">
-			<!-- <div class="container">
-		        <div class="recent-files">
-		            <h3>Các file đã in gần đây</h3>
-		            <ul>
-		                <li>1. ABC.pdf</li>
-		                <li>2. DEF.doc</li>
-		                <li>3. GHI.pdf</li>
-		                <li>4. JKL.ppt</li>
-		            </ul>
-		        </div>
-
-		        <div class="system-notifications">
-		            <h3>Thông báo hệ thống</h3>
-		            <ul>
-		                <li>Máy in #1 hết mực</li>
-		                <li>Máy in #3 đang sửa chữa</li>
-		                <li>Máy in #2 đã hoạt động bình thường</li>
-		            </ul>
-		        </div>
-		    </div> -->
 			<div class="content_item">
-				<!-- <img class="content_img" src="assets/math.jpg"/>
-					<div class="content_title">Các file đã in gần đây</div>
-					<div class="content_desc"></div> -->
 				<div class="recent-files">
 					<h3>Các file đã in gần đây</h3>
 					<ul>
@@ -185,9 +162,6 @@
 			</div>
 
 			<div class="content_item">
-				<!-- <img class="content_img" src="assets/math.jpg"/>
-					<div class="content_title">Thông báo hệ thống</div>
-					<div class="content_desc"></div> -->
 				<div class="system-notifications">
 					<h3>Thông báo hệ thống</h3>
 					<ul>
@@ -198,14 +172,10 @@
 				</div>
 			</div>
 			<div class="content_item">
-				<!-- <img class="content_img" src="assets/math.jpg"/>
-					<div class="content_title">Lịch</div>
-					<div class="content_desc"></div> -->
 				<section class="ftco-section">
 					<div class="container">
 						<div class="row justify-content-center">
 							<div class="col-md-6 text-center mb-5">
-								<!-- <h2 class="heading-section">Lịch</h2> -->
 							</div>
 						</div>
 						<div class="row">
@@ -339,7 +309,7 @@
 		window.location.href = '../printerList/printerlist';
 	})
 	document.addEventListener('DOMContentLoaded', function () {
-		
+
 		const currentPagesElement = document.getElementById("total-pages");
 		const remainingPagesElement = document.getElementById("remaining-pages");
 		const printButton = document.getElementById("print-button");
@@ -428,7 +398,7 @@
 
 			if (currentPages < remainingPages) {
 				printButton.disabled = true;
-				buyPaperwarning.style.display = 'block'; 
+				buyPaperwarning.style.display = 'block';
 
 				// alert("Please buy more papers.");
 			} else {
@@ -449,8 +419,10 @@
 			const sides = document.getElementById('sides').value;
 			const paperSize = document.getElementById('paper-size').value;
 			const remainingPages = calculatePages(pageRange, totalPages, copies, sides, paperSize);
+			const docname = document.getElementById('file-name').value;
 
 			const config = {
+				filename: docname,
 				copies: copies,
 				sides: sides,
 				layout: document.getElementById('layout').value,
@@ -458,10 +430,21 @@
 				pageRange: pageRange || 'Tất cả',
 				remainingPages: remainingPages
 			};
+			if (!localStorage.getItem("printingHistory")) {
+				localStorage.setItem("printingHistory", JSON.stringify([])); // Default empty history
+			}
+			const newEntry = {
+				docname: docname,
+				pagenums: remainingPages
+			};
+			let history = JSON.parse(localStorage.getItem("printingHistory")) || [];
+			history.push(newEntry);
 
+			localStorage.setItem("printingHistory", JSON.stringify(history));
 			localStorage.setItem('printConfig', JSON.stringify(config)); // Save to localStorage
 			window.location.href = '../printerlist/printerlist'; // Redirect to printer list
 		});
+
 		updateButtonState();
 		// const currentPagesElement = document.getElementById("total-pages");
 

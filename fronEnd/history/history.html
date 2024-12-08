@@ -74,10 +74,10 @@
     <table id="print-log-table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Filename</th>
+				<th>Document Name</th>
+                <th>Number of Papers</th>
+                <th>Time</th>
                 <th>Printer Name</th>
-                <th>Version</th>
             </tr>
         </thead>
         <tbody>
@@ -88,69 +88,112 @@
     <div id="error" style="color: red;"></div>
 
 	<script>
-		// Hàm gọi API và hiển thị dữ liệu
-		function fetchPrintLogs() {
-			const url = "http://localhost:3000/printer/log";
-			const token = localStorage.getItem('token');
+		 // Function to retrieve history from localStorage and update the table
+		function updateTable() {
+			// Retrieve the history array from localStorage
+			const history = JSON.parse(localStorage.getItem("printingHistory")) || [];
+			
+			const tableBody = document.querySelector("#print-log-table tbody");
+			
+			// Clear the current table rows
+			tableBody.innerHTML = "";
 
-	
-			// Gọi API bằng fetch
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					'Authorization': `Bearer ${token}`,  // Thêm token vào header
-					'Content-Type': 'application/json'
-				}
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`Lỗi khi gọi API: ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then(data => {
-				const tableBody = document.querySelector("#print-log-table tbody");
-				const loadingElement = document.getElementById("loading");
-				const errorElement = document.getElementById("error");
-	
-				// Ẩn thông báo loading
-				loadingElement.style.display = "none";
-	
-				// Xóa dữ liệu cũ trong bảng (nếu có)
-				tableBody.innerHTML = "";
-	
-				// Kiểm tra nếu dữ liệu là một mảng
-				if (Array.isArray(data)) {
-					// Duyệt qua từng mục trong dữ liệu và tạo các dòng bảng
-					data.forEach(log => {
-						const row = document.createElement("tr");
-						row.innerHTML = `
-							<td>${log._id}</td>
-							<td>${log.filename}</td>
-							<td>${log.printerName}</td>
-							<td>${log.__v}</td>
-						`;
-						tableBody.appendChild(row);
-					});
-				} else {
-					errorElement.textContent = "Dữ liệu trả về không hợp lệ.";
-				}
-			})
-			.catch(error => {
-				const errorElement = document.getElementById("error");
-				const loadingElement = document.getElementById("loading");
-	
-				// Hiển thị lỗi và ẩn thông báo loading
-				loadingElement.style.display = "none";
-				errorElement.textContent = `Lỗi: ${error.message}`;
-	
-				// Log thêm lỗi để dễ dàng xác định
-				console.error('Error fetching print logs:', error);
+			// Loop through each entry in history and add a new row to the table
+			history.forEach(entry => {
+				const row = document.createElement("tr");
+
+				// Create cells for document name, page numbers, time, and printer name
+				const docnameCell = document.createElement("td");
+				docnameCell.textContent = entry.docname;
+				
+				const pagenumsCell = document.createElement("td");
+				pagenumsCell.textContent = entry.pagenums;
+
+				const timeCell = document.createElement("td");
+				timeCell.textContent = entry.timestamp; // Assuming the timestamp is the time
+
+				const printerNameCell = document.createElement("td");
+				printerNameCell.textContent = entry.printerCode;
+
+				// Append cells to the row
+				row.appendChild(docnameCell);
+				row.appendChild(pagenumsCell);
+				row.appendChild(timeCell);
+				row.appendChild(printerNameCell);
+
+				// Append the row to the table body
+				tableBody.appendChild(row);
 			});
 		}
+
+		// Initialize the table on page load
+		document.addEventListener("DOMContentLoaded", function() {
+			updateTable(); // Populate the table with the existing history when the page is loaded
+		});
+
+		// // Hàm gọi API và hiển thị dữ liệu
+		// function fetchPrintLogs() {
+		// 	const url = "http://localhost:3000/printer/log";
+		// 	const token = localStorage.getItem('token');
+
 	
-		// Gọi hàm fetchPrintLogs khi trang web tải
-		window.onload = fetchPrintLogs;
+		// 	// Gọi API bằng fetch
+		// 	fetch(url, {
+		// 		method: 'GET',
+		// 		headers: {
+		// 			'Authorization': `Bearer ${token}`,  // Thêm token vào header
+		// 			'Content-Type': 'application/json'
+		// 		}
+		// 	})
+		// 	.then(response => {
+		// 		if (!response.ok) {
+		// 			throw new Error(`Lỗi khi gọi API: ${response.statusText}`);
+		// 		}
+		// 		return response.json();
+		// 	})
+		// 	.then(data => {
+		// 		const tableBody = document.querySelector("#print-log-table tbody");
+		// 		const loadingElement = document.getElementById("loading");
+		// 		const errorElement = document.getElementById("error");
+	
+		// 		// Ẩn thông báo loading
+		// 		loadingElement.style.display = "none";
+	
+		// 		// Xóa dữ liệu cũ trong bảng (nếu có)
+		// 		tableBody.innerHTML = "";
+	
+		// 		// Kiểm tra nếu dữ liệu là một mảng
+		// 		if (Array.isArray(data)) {
+		// 			// Duyệt qua từng mục trong dữ liệu và tạo các dòng bảng
+		// 			data.forEach(log => {
+		// 				const row = document.createElement("tr");
+		// 				row.innerHTML = `
+		// 					<td>${log._id}</td>
+		// 					<td>${log.filename}</td>
+		// 					<td>${log.printerName}</td>
+		// 					<td>${log.__v}</td>
+		// 				`;
+		// 				tableBody.appendChild(row);
+		// 			});
+		// 		} else {
+		// 			errorElement.textContent = "Dữ liệu trả về không hợp lệ.";
+		// 		}
+		// 	})
+		// 	.catch(error => {
+		// 		const errorElement = document.getElementById("error");
+		// 		const loadingElement = document.getElementById("loading");
+	
+		// 		// Hiển thị lỗi và ẩn thông báo loading
+		// 		loadingElement.style.display = "none";
+		// 		errorElement.textContent = `Lỗi: ${error.message}`;
+	
+		// 		// Log thêm lỗi để dễ dàng xác định
+		// 		console.error('Error fetching print logs:', error);
+		// 	});
+		// }
+	
+		// // Gọi hàm fetchPrintLogs khi trang web tải
+		// window.onload = fetchPrintLogs;
 	</script>
 		</div>
 
