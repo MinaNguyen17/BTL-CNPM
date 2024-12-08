@@ -1,57 +1,78 @@
 <!DOCTYPE html>
-<html lang='vi'>
-<head>
-	<meta charset="utf-8">
-	<meta name="description" content="A Smart Printing Service">
-	<meta content="author" name="Tanlocdev04">
-	<meta content="country" name="Viet Nam">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../static/css/file.css">
-	<link rel="stylesheet" href="../static/css/login.css">
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A Smart Printing Service" />
+    <meta content="author" name="Tanlocdev04" />
+    <meta content="country" name="Viet Nam" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/file.css" />
+    <link rel="stylesheet" href="../static/css/login.css" />
 
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!--css cho stickychop -->
-     <!-- <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"> -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <!--css cho footer -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <!--css cho accordion, modal, dropdown, tooltip -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!--css cho stickychop -->
+    <!-- <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!--css cho footer -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--css cho accordion, modal, dropdown, tooltip -->
 
-	<link rel="stylesheet" href="../../static/css/style.css">
-	<title>Trang chủ</title>
-</head>
-	<script> 
-		function togglePanel(panelId) {
-        		var panel = document.getElementById(panelId);
-        		panel.classList.toggle('active');
-    		}
-	</script>
-	<script>const carousel = new bootstrap.Carousel('#myCarousel')</script> 
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <title>Trang chủ</title>
+  </head>
+  <script>
+    function togglePanel(panelId) {
+      var panel = document.getElementById(panelId);
+      panel.classList.toggle("active");
+    }
+  </script>
+  <script>
+    const carousel = new bootstrap.Carousel("#myCarousel");
+  </script>
 
-<body>
-	<div class="sticky-top">
-		<nav>
-			<a href="/homePage/index" class="menu_left">
-            <img src="../static/assets/hcmut.png" alt="Logo" class="logo" style="height: 30px;">
-       		</a>
-			<a href="/homePage/index" class="menu_left">Trang chủ</a>
-			<a href="/login/index" class="menu_left">In tài liệu</a>
-			<a href="/login/index" class="menu_left">Lịch sử</a>
-			<a href="/login/index" class="menu_left">Mua giấy</a>
+  <body>
+    <div class="sticky-top">
+      <nav>
+        <a href="/homePage/index" class="menu_left">
+          <img
+            src="../static/assets/hcmut.png"
+            alt="Logo"
+            class="logo"
+            style="height: 30px"
+          />
+        </a>
+        <a href="/homePage/index" class="menu_left">Trang chủ</a>
+        <a href="/login/index" class="menu_left">In tài liệu</a>
+        <a href="/login/index" class="menu_left">Lịch sử</a>
+        <a href="/login/index" class="menu_left">Mua giấy</a>
 
-			<a href="/login/index" class="menu_right">Đăng nhập</a>
-			<a class="menu_right">Vietnamese(vi)</a>
-		</nav>
-     </div>
+        <a href="/login/index" class="menu_right">Đăng nhập</a>
+        <a class="menu_right">Vietnamese(vi)</a>
+      </nav>
+    </div>
     <div class="contain_login_form">
-
-<!-- 	     <div class="background">
+      <!-- 	     <div class="background">
 	        <img src="../../static/assets/Education.jpg" alt="Hình ảnh" class="blurred-image">
 	     </div>
  -->
-	     <section class="login-form">
-	        <h2 style="color: #05318E">Đăng nhập bằng tài khoản của bạn</h2>
+      <section class="login-form">
+        <h2 style="color: #05318e">Đăng nhập bằng tài khoản của bạn</h2>
 
-	        <button onclick="window.location.href='/login/login'" class="accordion" onclick="togglePanel('panel1')">Tài khoản HCMUT (HCMUT account)</button>
+        <button
+          onclick="window.location.href='/login/login'"
+          class="accordion"
+          onclick="togglePanel('panel1')"
+        >
+          Tài khoản HCMUT (HCMUT account)
+        </button>
 
-	        <!-- <div id="panel1" class="panel">
+        <!-- <div id="panel1" class="panel">
 	            <form action="#">
 	                <input type="text" id="username" name="username" placeholder="Tên tài khoản" required>
 	                <div class="login">
@@ -61,62 +82,80 @@
 	            </form>
 	        </div> -->
 
-	        <button class="accordion" onclick="togglePanel('panel2')">Quản trị viên</button>	
-	        <div id="panel2" class="panel">
-	            <form action="#" id="admin-login-form">
-	                <input type="text" id="admin-username" name="username" placeholder="Tên tài khoản" required>
-	                <div class="login">
-	                	<input  type="password" id="admin-password" name="password" placeholder="Mật khẩu" required>
-	                	<button type="button" class="btn btn-outline-success">Đăng Nhập </button>
-	            	</div>
-	            </form>
-	        </div>  
+        <button class="accordion" onclick="togglePanel('panel2')">
+          Quản trị viên
+        </button>
+        <div id="panel2" class="panel">
+          <form action="#" id="admin-login-form">
+            <input
+              type="text"
+              id="admin-username"
+              name="username"
+              placeholder="Tên tài khoản"
+              required
+            />
+            <div class="login">
+              <input
+                type="password"
+                id="admin-password"
+                name="password"
+                placeholder="Mật khẩu"
+                required
+              />
+              <button type="button" class="btn btn-outline-success">
+                Đăng Nhập
+              </button>
+            </div>
+          </form>
+        </div>
 
-	        <!-- </div> -->
-	    </section>
-	</div>
+        <!-- </div> -->
+      </section>
+    </div>
 
-	<footer>
-		<div class="call">
-			<div class="fa fa-phone"></div>
-			<p class="call_us">Liên hệ: 0123456789 </p>
-		</div>
-		<div class="contact">
-			<div class="fa fa-envelope"></div>
-			<p class="contact_us">E-mail:ABC@gmail.com</p>
-		</div>
-	</footer>
-</body>
-<script>
-document.querySelector('#admin-login-form').addEventListener('submit', async function (e) {
-    e.preventDefault(); // Ngăn chặn gửi form mặc định
+    <footer>
+      <div class="call">
+        <div class="fa fa-phone"></div>
+        <p class="call_us">Liên hệ: 0123456789</p>
+      </div>
+      <div class="contact">
+        <div class="fa fa-envelope"></div>
+        <p class="contact_us">E-mail:ABC@gmail.com</p>
+      </div>
+    </footer>
+  </body>
+  <script>
+    document
+      .querySelector("#admin-login-form")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault(); // Ngăn chặn gửi form mặc định
 
-    const username = document.querySelector('#admin-username').value; // ID của input tài khoản quản trị
-    const password = document.querySelector('#admin-password').value; // ID của input mật khẩu quản trị
+        const username = document.querySelector("#admin-username").value; // ID của input tài khoản quản trị
+        const password = document.querySelector("#admin-password").value; // ID của input mật khẩu quản trị
 
-    try {
-        // Gửi yêu cầu tới API đăng nhập
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
+        try {
+          // Gửi yêu cầu tới API đăng nhập
+          const response = await fetch("http://localhost:9898/login", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ username, password }),
-        });
+          });
 
-        const data = await response.json();
+          const data = await response.json();
 
-        if (response.ok) {
-            alert('Đăng nhập quản trị viên thành công!');
-            localStorage.setItem('token', data.token); // Lưu token vào localStorage để xác thực
-            window.location.href = '/admin-dashboard.html'; // Điều hướng đến trang quản trị viên
-        } else {
-            alert(data.message || 'Đăng nhập thất bại.');
+          if (response.ok) {
+            alert("Đăng nhập quản trị viên thành công!");
+            localStorage.setItem("token", data.token); // Lưu token vào localStorage để xác thực
+            window.location.href = "/admin-dashboard.html"; // Điều hướng đến trang quản trị viên
+          } else {
+            alert(data.message || "Đăng nhập thất bại.");
+          }
+        } catch (error) {
+          console.error("Lỗi kết nối tới server:", error);
+          alert("Không thể kết nối tới server. Vui lòng thử lại sau.");
         }
-    } catch (error) {
-        console.error('Lỗi kết nối tới server:', error);
-        alert('Không thể kết nối tới server. Vui lòng thử lại sau.');
-    }
-});
-</script>
+      });
+  </script>
 </html>

@@ -69,26 +69,31 @@ app.get("/printerList/printerList", (req, res) => {
 
 //successPrinting
 app.get("/successPrinting/successPrinting", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/successPrinting/successPrinting.html"));
+  res.sendFile(
+    path.join(__dirname, "../fronEnd/successPrinting/successPrinting.html")
+  );
 });
 
 //buypaper
 app.get("/paperPurchase/paperpurchase", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/paperPurchase/paperpurchase.html"));
+  res.sendFile(
+    path.join(__dirname, "../fronEnd/paperPurchase/paperpurchase.html")
+  );
 });
 
-
 // Cấu hình CORS
-app.use(cors({
-  origin: '*', // Cho phép tất cả các domain
-  methods: 'GET,POST,DELETE',  // Các phương thức được phép
-  allowedHeaders: 'Content-Type, Authorization'  // Các header được phép
-}));
+app.use(
+  cors({
+    origin: "*", // Cho phép tất cả các domain
+    methods: "GET,POST,DELETE", // Các phương thức được phép
+    allowedHeaders: "Content-Type, Authorization", // Các header được phép
+  })
+);
 
 // Routes
 app.use("/", mainRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9898;
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

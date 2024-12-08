@@ -1,482 +1,552 @@
 <!DOCTYPE html>
-<html lang='vi'>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A Smart Printing Service" />
+    <meta content="author" name="Tanlocdev04" />
+    <meta content="country" name="Viet Nam" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/test.css" />
+    <link rel="stylesheet" href="../static/css/style_calendar.css" />
+    <!--css cho lic-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <!--css cho lich-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!--css cho lich -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!--css cho footer -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!--css cho stickychop -->
+    <title>Trang chủ</title>
+  </head>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="description" content="A Smart Printing Service">
-	<meta content="author" name="Tanlocdev04">
-	<meta content="country" name="Viet Nam">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../static/css/test.css">
-	<link rel="stylesheet" href="../static/css/style_calendar.css"> <!--css cho lic-->
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-	<!--css cho lich-->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!--css cho lich -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<!--css cho footer -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<!--css cho stickychop -->
-	<title>Trang chủ </title>
-</head>
+  <body>
+    <div class="sticky-top">
+      <nav>
+        <a href="/homePage/home2" class="menu_left">
+          <img
+            src="/static/assets/hcmut.png"
+            alt="Logo"
+            class="logo"
+            style="height: 30px"
+          />
+        </a>
+        <a href="/homePage/home2" class="menu_left">Trang chủ</a>
+        <a href="/print/uploadFile" class="menu_left">In tài liệu</a>
+        <a href="/history/history" class="menu_left">Lịch sử</a>
+        <a href="/paperPurchase/paperpurchase" class="menu_left">Mua giấy</a>
 
-<body>
-	<div class="sticky-top">
-		<nav>
-			<a href="/homePage/home2" class="menu_left">
-				<img src="/static/assets/hcmut.png" alt="Logo" class="logo" style="height: 30px;">
-			</a>
-			<a href="/homePage/home2" class="menu_left">Trang chủ</a>
-			<a href="/print/uploadFile" class="menu_left">In tài liệu</a>
-			<a href="/history/history" class="menu_left">Lịch sử</a>
-			<a href="/paperPurchase/paperpurchase" class="menu_left">Mua giấy</a>
-
-			<!-- Dấu 3 gạch -->
-			<!-- <div class="menu_right">
+        <!-- Dấu 3 gạch -->
+        <!-- <div class="menu_right">
 				  <div class="menu-btn" onclick="toggleSidebar()" style="padding: 5px 10px 0px 0px; font-size: 200%;">
 				    &#9776; Đây là biểu tượng 3 gạch
 				  </div>
 			</div> -->
 
-			<div class="menu_right dropdown">
-				<button class="dropbtn">
-					<img src="../static/assets/userAvatar.png" alt="User Avatar" class="avatar">
-					<span class="caret">▼</span>
-				</button>
+        <div class="menu_right dropdown">
+          <button class="dropbtn">
+            <img
+              src="../static/assets/userAvatar.png"
+              alt="User Avatar"
+              class="avatar"
+            />
+            <span class="caret">▼</span>
+          </button>
 
-				<div class="dropdown-content">
-					<a href="#">Hồ sơ</a>
-					<!-- <a href="#">Điểm</a> -->
-					<a href="#">Lịch</a>
-					<a href="#">Tập tin riêng tư</a>
-					<a href="#">Báo cáo</a>
-					<a href="#">Tùy chọn</a>
-					<div class="submenu">
-						<a href="#">Ngôn ngữ</a>
-						<div class="submenu-content">
-							<a href="#">Tiếng Việt</a>
-							<a href="#">English</a>
-						</div>
-					</div>
-					<a href="/homePage/index">Thoát</a>
-				</div>
-			</div>
+          <div class="dropdown-content">
+            <a href="#">Hồ sơ</a>
+            <!-- <a href="#">Điểm</a> -->
+            <a href="#">Lịch</a>
+            <a href="#">Tập tin riêng tư</a>
+            <a href="#">Báo cáo</a>
+            <a href="#">Tùy chọn</a>
+            <div class="submenu">
+              <a href="#">Ngôn ngữ</a>
+              <div class="submenu-content">
+                <a href="#">Tiếng Việt</a>
+                <a href="#">English</a>
+              </div>
+            </div>
+            <a href="/homePage/index">Thoát</a>
+          </div>
+        </div>
+      </nav>
+    </div>
 
-		</nav>
-	</div>
+    <div id="flex_container">
+      <div id="left_side">
+        <div class="container">
+          <div class="preview">
+            <!-- Hiển thị file PDF -->
+            <div id="pdf-container">
+              <!-- Canvas để hiển thị các trang PDF -->
+              <div id="canvas-container">
+                <canvas id="pdf-canvas"></canvas>
+              </div>
 
-	<div id="flex_container">
-		<div id="left_side">
-			<div class="container">
-				<div class="preview">
-					<!-- Hiển thị file PDF -->
-					<div id="pdf-container">
-						<!-- Canvas để hiển thị các trang PDF -->
-						<div id="canvas-container">
-							<canvas id="pdf-canvas"></canvas>
-						</div>
+              <!-- Điều khiển chuyển trang -->
+              <div>
+                <button id="prev-page">Trang trước</button>
+                <span id="page-info"></span>
+                <button id="next-page">Trang sau</button>
+              </div>
+            </div>
+          </div>
 
-						<!-- Điều khiển chuyển trang -->
-						<div>
-							<button id="prev-page">Trang trước</button>
-							<span id="page-info"></span>
-							<button id="next-page">Trang sau</button>
-						</div>
-					</div>
-				</div>
+          <div class="form-container">
+            <h1 class="title">In tài liệu</h1>
 
-				<div class="form-container">
-					<h1 class="title">In tài liệu</h1>
+            <div class="form-group">
+              <label for="file-name">Tên tài liệu:</label>
+              <input
+                type="text"
+                id="file-name"
+                value="Lorem ipsum 1"
+                disabled
+              />
+            </div>
 
-					<div class="form-group">
-						<label for="file-name">Tên tài liệu:</label>
-						<input type="text" id="file-name" value="Lorem ipsum 1" disabled>
-					</div>
+            <div class="form-group">
+              <label for="copies">Số bản in:</label>
+              <input type="number" id="copies" value="1" min="1" />
+            </div>
 
-					<div class="form-group">
-						<label for="copies">Số bản in:</label>
-						<input type="number" id="copies" value="1" min="1">
-					</div>
+            <div class="form-group">
+              <label for="sides">Số mặt:</label>
+              <select id="sides">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
 
-					<div class="form-group">
-						<label for="sides">Số mặt:</label>
-						<select id="sides">
-							<option value="1" selected>1</option>
-							<option value="2">2</option>
-						</select>
-					</div>
+            <div class="form-group">
+              <label for="layout">Bố cục:</label>
+              <select id="layout">
+                <option value="portrait">Dọc</option>
+                <option value="landscape">Ngang</option>
+              </select>
+            </div>
 
-					<div class="form-group">
-						<label for="layout">Bố cục:</label>
-						<select id="layout">
-							<option value="portrait">Dọc</option>
-							<option value="landscape">Ngang</option>
-						</select>
-					</div>
+            <div class="form-group">
+              <label for="paper-size">Cỡ giấy:</label>
+              <select id="paper-size">
+                <option value="a4" selected>A4</option>
+                <option value="a3">A3</option>
+              </select>
+            </div>
 
-					<div class="form-group">
-						<label for="paper-size">Cỡ giấy:</label>
-						<select id="paper-size">
-							<option value="a4" selected>A4</option>
-							<option value="a3">A3</option>
-						</select>
-					</div>
+            <div class="form-group">
+              <label for="page-range">Trang in:</label>
+              <input type="text" id="page-range" placeholder="VD: 1-5, ..." />
+            </div>
 
-					<div class="form-group">
-						<label for="page-range">Trang in:</label>
-						<input type="text" id="page-range" placeholder="VD: 1-5, ...">
-					</div>
+            <div class="form-group">
+              <label>Số trang cần in:</label>
+              <span id="remaining-pages">0</span>
+            </div>
 
-					<div class="form-group">
-						<label>Số trang cần in:</label>
-						<span id="remaining-pages">0</span>
-					</div>
+            <div class="form-group">
+              <label>Số trang in còn lại:</label>
+              <span id="total-pages"></span>
+            </div>
+            <div class="visible" id="buypaperalert">
+              Không đủ giấy, vui lòng mua thêm trang in.
+              <a
+                href="/paperPurchase/paperpurchase"
+                id="buy-paper-link"
+                target="_blank"
+                >Mua giấy</a
+              >
+            </div>
+            <div class="footer">
+              <button id="print-button" onclick="saveConfigData()">In</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-					<div class="form-group">
-						<label>Số trang in còn lại:</label>
-						<span id="total-pages"></span>
-					</div>
-					<div class="visible" id="buypaperalert">
-						Không đủ giấy, vui lòng mua thêm trang in.
-						<a href="/paperPurchase/paperpurchase" id="buy-paper-link" target="_blank">Mua giấy</a>
-					</div>
-					<div class="footer">
-						<button id="print-button" onclick="saveConfigData()">In</button>
-					</div>
+      <div id="right_side">
+        <div class="content_item">
+          <div class="recent-files">
+            <h3>Các file đã in gần đây</h3>
+            <ul>
+              <li>1. ABC.pdf</li>
+              <li>2. DEF.doc</li>
+              <li>3. GHI.pdf</li>
+              <li>4. JKL.ppt</li>
+            </ul>
+          </div>
+        </div>
 
-				</div>
-			</div>
-		</div>
+        <div class="content_item">
+          <div class="system-notifications">
+            <h3>Thông báo hệ thống</h3>
+            <ul>
+              <li>Máy in #1 hết mực</li>
+              <li>Máy in #3 đang sửa chữa</li>
+              <li>Máy in #2 đã hoạt động bình thường</li>
+            </ul>
+          </div>
+        </div>
+        <div class="content_item">
+          <section class="ftco-section">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="calendar calendar-first" id="calendar_first">
+                    <div class="calendar_header">
+                      <button class="switch-month switch-left">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <h2></h2>
+                      <button class="switch-month switch-right">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                    <div class="calendar_weekdays"></div>
+                    <div class="calendar_content"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
 
-		<div id="right_side">
-			<div class="content_item">
-				<div class="recent-files">
-					<h3>Các file đã in gần đây</h3>
-					<ul>
-						<li>1. ABC.pdf</li>
-						<li>2. DEF.doc</li>
-						<li>3. GHI.pdf</li>
-						<li>4. JKL.ppt</li>
-					</ul>
-				</div>
-			</div>
+    <footer>
+      <div class="call">
+        <div class="fa fa-phone"></div>
+        <p class="call_us">Liên hệ: 0123456789</p>
+      </div>
+      <div class="contact">
+        <div class="fa fa-envelope"></div>
+        <p class="contact_us">E-mail:ABC@gmail.com</p>
+      </div>
+    </footer>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+      integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+      data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}'
+      crossorigin="anonymous"
+    ></script>
+    <script src="../static/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  </body>
+  <script>
+    const apiUrl = "http://localhost:9898/printer/send";
 
-			<div class="content_item">
-				<div class="system-notifications">
-					<h3>Thông báo hệ thống</h3>
-					<ul>
-						<li>Máy in #1 hết mực</li>
-						<li>Máy in #3 đang sửa chữa</li>
-						<li>Máy in #2 đã hoạt động bình thường</li>
-					</ul>
-				</div>
-			</div>
-			<div class="content_item">
-				<section class="ftco-section">
-					<div class="container">
-						<div class="row justify-content-center">
-							<div class="col-md-6 text-center mb-5">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="calendar calendar-first" id="calendar_first">
-									<div class="calendar_header">
-										<button class="switch-month switch-left"> <i
-												class="fa fa-chevron-left"></i></button>
-										<h2></h2>
-										<button class="switch-month switch-right"> <i
-												class="fa fa-chevron-right"></i></button>
-									</div>
-									<div class="calendar_weekdays"></div>
-									<div class="calendar_content"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
-		</div>
+    const fileId = localStorage.getItem("fileId");
+    const token = localStorage.getItem("token");
+    if (fileId) {
+      console.log("File ID:", fileId);
+      // Gọi API hoặc xử lý tiếp
+    } else {
+      alert("Không tìm thấy file ID.");
+    }
 
-	</div>
+    let pdfDoc = null;
+    let pageNum = 1;
+    let totalpages = 0;
 
-	<footer>
-		<div class="call">
-			<div class="fa fa-phone"></div>
-			<p class="call_us">Liên hệ: 0123456789 </p>
-		</div>
-		<div class="contact">
-			<div class="fa fa-envelope"></div>
-			<p class="contact_us">E-mail:ABC@gmail.com</p>
-		</div>
-	</footer>
-	<script src="../static/js/script.js"></script>
-	<script src="../static/js/jquery.min.js"></script>
-	<script src="../static/js/popper.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/main.js"></script>
-	<script defer
-		src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
-		integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-		data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}'
-		crossorigin="anonymous"></script>
-	<script src="../static/script.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-</body>
-<script>
+    fetch(`http://localhost:9898/file/${fileId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Lỗi ${response.status}: Không thể truy cập file.`);
+        }
+        return response.json();
+      })
+      .then((fileData) => {
+        if (fileData.data && fileData.data.data) {
+          const uint8Array = new Uint8Array(fileData.data.data); // Chuyển Buffer thành Uint8Array
+          const blob = new Blob([uint8Array], { type: fileData.contentType }); // Tạo Blob từ Uint8Array
+          const url = URL.createObjectURL(blob); // Tạo URL từ Blob
 
-	const apiUrl = "http://localhost:3000/printer/send";
+          document.getElementById("file-name").value = fileData.filename;
 
-	const fileId = localStorage.getItem('fileId');
-	const token = localStorage.getItem('token');
-	if (fileId) {
-		console.log('File ID:', fileId);
-		// Gọi API hoặc xử lý tiếp
-	} else {
-		alert('Không tìm thấy file ID.');
-	}
+          // Hiển thị file PDF bằng PDF.js
+          pdfjsLib
+            .getDocument(url)
+            .promise.then((pdf) => {
+              pdfDoc = pdf;
+              totalPages = pdf.numPages;
+              document.getElementById(
+                "page-info"
+              ).textContent = `Trang 1 / ${totalPages}`;
+              document.getElementById("remaining-pages").textContent =
+                totalPages;
+              renderPage(1); // Hiển thị trang đầu tiên
+              updateRemainingPages();
+            })
+            .catch((error) => console.error("Lỗi khi tải PDF:", error));
+        } else {
+          alert("Dữ liệu từ API không hợp lệ.");
+        }
+      })
+      .catch((error) => console.error("Lỗi khi tải file:", error));
 
-	let pdfDoc = null;
-	let pageNum = 1;
-	let totalpages = 0;
+    function renderPage(pageNum) {
+      pdfDoc
+        .getPage(pageNum)
+        .then((page) => {
+          const viewport = page.getViewport({ scale: 1.5 }); // Tăng tỉ lệ để hiển thị rõ
+          const canvas = document.getElementById("pdf-canvas");
+          const ctx = canvas.getContext("2d");
 
-	fetch(`http://localhost:3000/file/${fileId}`, {
-		method: 'GET',
-		headers: {
-			'Authorization': `Bearer ${token}`,
-		},
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`Lỗi ${response.status}: Không thể truy cập file.`);
-			}
-			return response.json();
-		})
-		.then(fileData => {
-			if (fileData.data && fileData.data.data) {
-				const uint8Array = new Uint8Array(fileData.data.data); // Chuyển Buffer thành Uint8Array
-				const blob = new Blob([uint8Array], { type: fileData.contentType }); // Tạo Blob từ Uint8Array
-				const url = URL.createObjectURL(blob); // Tạo URL từ Blob
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
 
-				document.getElementById('file-name').value = fileData.filename;
+          const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport,
+          };
 
-				// Hiển thị file PDF bằng PDF.js
-				pdfjsLib.getDocument(url).promise.then(pdf => {
-					pdfDoc = pdf;
-					totalPages = pdf.numPages;
-					document.getElementById('page-info').textContent = `Trang 1 / ${totalPages}`;
-					document.getElementById('remaining-pages').textContent = totalPages;
-					renderPage(1); // Hiển thị trang đầu tiên
-					updateRemainingPages();
-				}).catch(error => console.error('Lỗi khi tải PDF:', error));
-			} else {
-				alert('Dữ liệu từ API không hợp lệ.');
-			}
-		})
-		.catch(error => console.error('Lỗi khi tải file:', error));
+          page.render(renderContext).promise.then(() => {
+            document.getElementById(
+              "page-info"
+            ).textContent = `Trang ${pageNum} / ${pdfDoc.numPages}`;
+          });
+        })
+        .catch((error) => console.error("Lỗi khi render trang:", error));
+    }
 
-	function renderPage(pageNum) {
-		pdfDoc.getPage(pageNum).then(page => {
-			const viewport = page.getViewport({ scale: 1.5 }); // Tăng tỉ lệ để hiển thị rõ
-			const canvas = document.getElementById('pdf-canvas');
-			const ctx = canvas.getContext('2d');
+    document.getElementById("prev-page").addEventListener("click", () => {
+      if (pageNum <= 1) return;
+      pageNum--;
+      renderPage(pageNum);
+    });
 
-			canvas.height = viewport.height;
-			canvas.width = viewport.width;
+    document.getElementById("next-page").addEventListener("click", () => {
+      if (pageNum >= pdfDoc.numPages) return;
+      pageNum++;
+      renderPage(pageNum);
+    });
+    document.getElementById("print-button").addEventListener("click", () => {
+      window.location.href = "../printerList/printerlist";
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      const currentPagesElement = document.getElementById("total-pages");
+      const remainingPagesElement = document.getElementById("remaining-pages");
+      const printButton = document.getElementById("print-button");
+      const buyPaperwarning = document.getElementById("buypaperalert");
 
-			const renderContext = {
-				canvasContext: ctx,
-				viewport: viewport,
-			};
+      // Initialize currentPages if not already set
+      if (!localStorage.getItem("currentPages")) {
+        localStorage.setItem("currentPages", "12");
+      }
 
-			page.render(renderContext).promise.then(() => {
-				document.getElementById('page-info').textContent = `Trang ${pageNum} / ${pdfDoc.numPages}`;
-			});
-		}).catch(error => console.error('Lỗi khi render trang:', error));
-	}
+      currentPagesElement.innerText = localStorage.getItem("currentPages");
 
-	document.getElementById('prev-page').addEventListener('click', () => {
-		if (pageNum <= 1) return;
-		pageNum--;
-		renderPage(pageNum);
-	});
+      // Function to calculate the remaining pages based on the input values
+      function calculatePages(pageRange, totalPages, copies, sides, paperSize) {
+        console.log("Input Values:", {
+          pageRange,
+          totalPages,
+          copies,
+          sides,
+          paperSize,
+        });
 
-	document.getElementById('next-page').addEventListener('click', () => {
-		if (pageNum >= pdfDoc.numPages) return;
-		pageNum++;
-		renderPage(pageNum);
-	});
-	document.getElementById('print-button').addEventListener('click', () => {
-		window.location.href = '../printerList/printerlist';
-	})
-	document.addEventListener('DOMContentLoaded', function () {
+        let remainingPages = totalPages;
+        if (!pageRange || pageRange.trim() === "") {
+          console.log("Page range is empty. Defaulting to all pages.");
+          remainingPages = totalPages * copies; // Default: print all pages * copies
+          // return remainingPages;
+        } else {
+          const ranges = pageRange.split(",").map((r) => r.trim());
+          const pagesSet = new Set();
 
-		const currentPagesElement = document.getElementById("total-pages");
-		const remainingPagesElement = document.getElementById("remaining-pages");
-		const printButton = document.getElementById("print-button");
-		const buyPaperwarning = document.getElementById("buypaperalert");
+          // Parsing the page range
+          ranges.forEach((range) => {
+            if (range.includes("-")) {
+              const [start, end] = range.split("-").map(Number);
+              if (!isNaN(start) && !isNaN(end) && start <= end) {
+                for (
+                  let i = Math.max(1, start);
+                  i <= Math.min(end, totalPages);
+                  i++
+                ) {
+                  pagesSet.add(i);
+                }
+              } else {
+                console.warn(`Invalid range: "${range}"`);
+              }
+            } else {
+              const page = parseInt(range, 10);
+              if (!isNaN(page) && page >= 1 && page <= totalPages) {
+                pagesSet.add(page);
+              } else {
+                console.warn(`Invalid single page: "${range}"`);
+              }
+            }
+          });
 
-		// Initialize currentPages if not already set
-		if (!localStorage.getItem("currentPages")) {
-			localStorage.setItem("currentPages", "12");
-		}
+          console.log("Valid Pages Set:", Array.from(pagesSet));
+          remainingPages = pagesSet.size * copies;
+        }
 
-		currentPagesElement.innerText = localStorage.getItem("currentPages");
+        // Adjust for sides
+        if (sides === "2") {
+          remainingPages = Math.ceil(remainingPages / 2); // Divide by 2 if sides = 2
+          console.log("Adjusted for double-sided printing:", remainingPages);
+        }
 
-		// Function to calculate the remaining pages based on the input values
-		function calculatePages(pageRange, totalPages, copies, sides, paperSize) {
-			console.log("Input Values:", { pageRange, totalPages, copies, sides, paperSize });
+        // Adjust for paper size (A3)
+        if (paperSize.toLowerCase() === "a3") {
+          remainingPages *= 2; // Multiply by 2 if paper size = A3
+          console.log("Adjusted for A3 paper size:", remainingPages);
+        }
 
-			let remainingPages = totalPages;
-			if (!pageRange || pageRange.trim() === '') {
-				console.log("Page range is empty. Defaulting to all pages.");
-				remainingPages = totalPages * copies; // Default: print all pages * copies
-				// return remainingPages;
-			}
-			else {
-				const ranges = pageRange.split(',').map(r => r.trim());
-				const pagesSet = new Set();
+        console.log("Final Remaining Pages:", remainingPages);
+        return remainingPages;
+      }
 
-				// Parsing the page range
-				ranges.forEach(range => {
-					if (range.includes('-')) {
-						const [start, end] = range.split('-').map(Number);
-						if (!isNaN(start) && !isNaN(end) && start <= end) {
-							for (let i = Math.max(1, start); i <= Math.min(end, totalPages); i++) {
-								pagesSet.add(i);
-							}
-						} else {
-							console.warn(`Invalid range: "${range}"`);
-						}
-					} else {
-						const page = parseInt(range, 10);
-						if (!isNaN(page) && page >= 1 && page <= totalPages) {
-							pagesSet.add(page);
-						} else {
-							console.warn(`Invalid single page: "${range}"`);
-						}
-					}
-				});
+      // Function to update the remaining pages dynamically
+      function updateRemainingPages() {
+        const pageRange = document.getElementById("page-range").value;
+        const copies =
+          parseInt(document.getElementById("copies").value, 10) || 1;
+        const sides = document.getElementById("sides").value;
+        const paperSize = document.getElementById("paper-size").value;
+        const remainingPages = calculatePages(
+          pageRange,
+          totalPages,
+          copies,
+          sides,
+          paperSize
+        );
+        document.getElementById("remaining-pages").textContent = remainingPages;
+        remainingPagesElement.textContent = remainingPages;
+        updateButtonState();
+      }
+      function updateButtonState() {
+        // buyPaperwarning.style.display = 'none';
+        const currentPages = parseInt(localStorage.getItem("currentPages"), 10);
+        const remainingPages = parseInt(remainingPagesElement.textContent, 10);
+        console.log("current pages : ", currentPages);
+        console.log("remaining pages: ", remainingPages);
 
-				console.log("Valid Pages Set:", Array.from(pagesSet));
-				remainingPages = pagesSet.size * copies;
+        if (currentPages < remainingPages) {
+          printButton.disabled = true;
+          buyPaperwarning.style.display = "block";
 
-			}
+          // alert("Please buy more papers.");
+        } else {
+          printButton.disabled = false;
+          buyPaperwarning.style.display = "none"; // Hide the alert
+        }
+      }
+      // Event listeners to update remaining pages when any of these options change
+      document
+        .getElementById("sides")
+        .addEventListener("change", updateRemainingPages);
+      document
+        .getElementById("paper-size")
+        .addEventListener("change", updateRemainingPages);
+      document
+        .getElementById("page-range")
+        .addEventListener("input", updateRemainingPages);
+      document
+        .getElementById("copies")
+        .addEventListener("input", updateRemainingPages);
 
+      // Event listener for the print button to save the configuration to localStorage
+      document
+        .getElementById("print-button")
+        .addEventListener("click", function () {
+          const pageRange = document.getElementById("page-range").value;
+          const copies =
+            parseInt(document.getElementById("copies").value, 10) || 1;
+          const sides = document.getElementById("sides").value;
+          const paperSize = document.getElementById("paper-size").value;
+          const remainingPages = calculatePages(
+            pageRange,
+            totalPages,
+            copies,
+            sides,
+            paperSize
+          );
+          const docname = document.getElementById("file-name").value;
 
-			// Adjust for sides
-			if (sides === '2') {
-				remainingPages = Math.ceil(remainingPages / 2); // Divide by 2 if sides = 2
-				console.log("Adjusted for double-sided printing:", remainingPages);
-			}
+          const config = {
+            filename: docname,
+            copies: copies,
+            sides: sides,
+            layout: document.getElementById("layout").value,
+            paperSize: paperSize,
+            pageRange: pageRange || "Tất cả",
+            remainingPages: remainingPages,
+          };
+          if (!localStorage.getItem("printingHistory")) {
+            localStorage.setItem("printingHistory", JSON.stringify([])); // Default empty history
+          }
 
-			// Adjust for paper size (A3)
-			if (paperSize.toLowerCase() === 'a3') {
-				remainingPages *= 2; // Multiply by 2 if paper size = A3
-				console.log("Adjusted for A3 paper size:", remainingPages);
-			}
+          let history =
+            JSON.parse(localStorage.getItem("printingHistory")) || [];
+          // Check the last entry
+          const lastEntry = history[history.length - 1];
+          if (lastEntry && (!lastEntry.printerCode || !lastEntry.timestamp)) {
+            // Update the last entry if missing printerCode or timestamp
+            lastEntry.docname = docname; // Update docname if needed
+            lastEntry.pagenums = remainingPages; // Update page numbers if needed
+          } else {
+            // Create a new entry
+            const newEntry = {
+              docname: docname,
+              pagenums: remainingPages,
+            };
+            history.push(newEntry);
+          }
 
-			console.log("Final Remaining Pages:", remainingPages);
-			return remainingPages;
-		}
+          localStorage.setItem("printingHistory", JSON.stringify(history));
+          localStorage.setItem("printConfig", JSON.stringify(config)); // Save to localStorage
+          window.location.href = "../printerlist/printerlist"; // Redirect to printer list
+        });
 
-		// Function to update the remaining pages dynamically
-		function updateRemainingPages() {
-			const pageRange = document.getElementById('page-range').value;
-			const copies = parseInt(document.getElementById('copies').value, 10) || 1;
-			const sides = document.getElementById('sides').value;
-			const paperSize = document.getElementById('paper-size').value;
-			const remainingPages = calculatePages(pageRange, totalPages, copies, sides, paperSize);
-			document.getElementById('remaining-pages').textContent = remainingPages;
-			remainingPagesElement.textContent = remainingPages;
-			updateButtonState();
-		}
-		function updateButtonState() {
-			// buyPaperwarning.style.display = 'none';
-			const currentPages = parseInt(localStorage.getItem("currentPages"), 10);
-			const remainingPages = parseInt(remainingPagesElement.textContent, 10);
-			console.log("current pages : ", currentPages);
-			console.log("remaining pages: ", remainingPages);
+      updateButtonState();
+      updateRemainingPages();
+      // const currentPagesElement = document.getElementById("total-pages");
 
-			if (currentPages < remainingPages) {
-				printButton.disabled = true;
-				buyPaperwarning.style.display = 'block';
+      // // Initialize currentPages if not already set
+      // if (!localStorage.getItem("currentPages")) {
+      // 	localStorage.setItem("currentPages", "12");
+      // }
 
-				// alert("Please buy more papers.");
-			} else {
-				printButton.disabled = false;
-				buyPaperwarning.style.display = 'none';  // Hide the alert
-			}
-		}
-		// Event listeners to update remaining pages when any of these options change
-		document.getElementById('sides').addEventListener('change', updateRemainingPages);
-		document.getElementById('paper-size').addEventListener('change', updateRemainingPages);
-		document.getElementById('page-range').addEventListener('input', updateRemainingPages);
-		document.getElementById('copies').addEventListener('input', updateRemainingPages);
+      // currentPagesElement.innerText = localStorage.getItem("currentPages");
 
-		// Event listener for the print button to save the configuration to localStorage
-		document.getElementById('print-button').addEventListener('click', function () {
-			const pageRange = document.getElementById('page-range').value;
-			const copies = parseInt(document.getElementById('copies').value, 10) || 1;
-			const sides = document.getElementById('sides').value;
-			const paperSize = document.getElementById('paper-size').value;
-			const remainingPages = calculatePages(pageRange, totalPages, copies, sides, paperSize);
-			const docname = document.getElementById('file-name').value;
-
-			const config = {
-				filename: docname,
-				copies: copies,
-				sides: sides,
-				layout: document.getElementById('layout').value,
-				paperSize: paperSize,
-				pageRange: pageRange || 'Tất cả',
-				remainingPages: remainingPages
-			};
-			if (!localStorage.getItem("printingHistory")) {
-				localStorage.setItem("printingHistory", JSON.stringify([])); // Default empty history
-			}
-
-			let history = JSON.parse(localStorage.getItem("printingHistory")) || [];
-			// Check the last entry
-			const lastEntry = history[history.length - 1];
-			if (lastEntry && (!lastEntry.printerCode || !lastEntry.timestamp)) {
-				// Update the last entry if missing printerCode or timestamp
-				lastEntry.docname = docname; // Update docname if needed
-				lastEntry.pagenums = remainingPages; // Update page numbers if needed
-			} else {
-				// Create a new entry
-				const newEntry = {
-					docname: docname,
-					pagenums: remainingPages
-				};
-				history.push(newEntry);
-			}
-
-			localStorage.setItem("printingHistory", JSON.stringify(history));
-			localStorage.setItem('printConfig', JSON.stringify(config)); // Save to localStorage
-			window.location.href = '../printerlist/printerlist'; // Redirect to printer list
-		});
-		
-		updateButtonState();
-		updateRemainingPages();
-		// const currentPagesElement = document.getElementById("total-pages");
-
-		// // Initialize currentPages if not already set
-		// if (!localStorage.getItem("currentPages")) {
-		// 	localStorage.setItem("currentPages", "12");
-		// }
-
-		// currentPagesElement.innerText = localStorage.getItem("currentPages");
-
-		// // Listen for localStorage updates
-		// window.addEventListener("storage", (event) => {
-		// 	if (event.key === "currentPages") {
-		// 		currentPagesElement.innerText = event.newValue;
-		// 	}
-		// });
-		// const printButton = document.getElementById("print-button");
-
-	});
-</script>
-
+      // // Listen for localStorage updates
+      // window.addEventListener("storage", (event) => {
+      // 	if (event.key === "currentPages") {
+      // 		currentPagesElement.innerText = event.newValue;
+      // 	}
+      // });
+      // const printButton = document.getElementById("print-button");
+    });
+  </script>
 </html>
