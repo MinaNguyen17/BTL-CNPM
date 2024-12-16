@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A Smart Printing Service" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/file.css" />
+    <link rel="stylesheet" href="../static/css/printerlist.css" />
+    <link rel="stylesheet" href="../static/css/style_calendar.css" />
+    <!--css cho lic-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <!--css cho lich-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!--css cho lich -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!--css cho footer -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!--css cho stickychop -->
+    <title>Danh sách máy in</title>
+
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="sticky-top">
+      <nav>
+        <a href="/homePage/home2" class="menu_left">
+          <img
+            src="../static/assets/hcmut.png"
+            alt="Logo"
+            class="logo"
+            style="height: 30px"
+          />
+        </a>
+        <a href="/homePage/home2" class="menu_left">Trang chủ</a>
+        <a href="/homePage/uploadFile" class="menu_left">In tài liệu</a>
+        <a href="/history/history" class="menu_left">Lịch sử</a>
+        <a href="#" class="menu_left">Mua giấy</a>
+
+        <div class="menu_right dropdown">
+          <button class="dropbtn">
+            <img
+              src="../static/assets/userAvatar.png"
+              alt="User Avatar"
+              class="avatar"
+            />
+            <span class="caret">▼</span>
+          </button>
+
+          <div class="dropdown-content">
+            <a href="#">Hồ sơ</a>
+            <!-- <a href="#">Điểm</a> -->
+            <a href="#">Lịch</a>
+            <a href="#">Tập tin riêng tư</a>
+            <a href="#">Báo cáo</a>
+            <a href="#">Tùy chọn</a>
+            <div class="submenu">
+              <a href="#">Ngôn ngữ</a>
+              <div class="submenu-content">
+                <a href="#">Tiếng Việt</a>
+                <a href="#">English</a>
+              </div>
+            </div>
+            <a href="/homePage/home2">Thoát</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div id="flex_container">
+      <div id="left_side">
+        <h1 class="mt-4" style="text-align: center">
+          <strong>Chọn máy in</strong>
+        </h1>
+        <h2>Danh sách máy in</h2>
+
+        <table id="printer-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Brand</th>
+              <th>Model</th>
+              <th>Description</th>
+              <th>Campus</th>
+              <th>Building</th>
+              <th>Room</th>
+              <th>Status</th>
+              <th>Choose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dữ liệu máy in sẽ được thêm vào đây -->
+          </tbody>
+        </table>
+        <p
+          id="selected-printer"
+          style="margin-top: 10px; font-size: 16px; font-weight: bold"
+        ></p>
+        <a style="margin-top: 20px" href="../successPrinting/successPrinting">
+          <button
+            id="print-button"
+            class="btn btn-primary"
+            style="font-size: 16px"
+          >
+            In
+          </button>
+        </a>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          let selectedPrinterCode = null;
+          // Function to fetch printer data and populate the table
+          function attachRadioListeners() {
+            const radios = document.querySelectorAll(".printer-radio");
+            radios.forEach((radio) => {
+              radio.addEventListener("change", function () {
+                if (this.checked) {
+                  const selectedRow = this.closest("tr");
+                  const printerID =
+                    selectedRow.querySelector("td:nth-child(2)").innerText;
+                  selectedPrinterCode =
+                    selectedRow.querySelector("td:nth-child(1)").innerText;
+                  const selectedPrinterText =
+                    document.getElementById("selected-printer");
+                  selectedPrinterText.innerHTML = `Bạn đã chọn <strong>máy in ${printerID}</strong>`;
+                }
+              });
+            });
+          }
+          const token = localStorage.getItem("token");
+          function fetchPrinters() {
+            fetch("/printer", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                // Nếu có token, hãy thêm Authorization vào đây:
+                // 'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+              },
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Lỗi khi gọi API: " + response.statusText); // Thêm thông báo lỗi nếu không thành công
+                }
+                return response.json();
+              })
+              .then((data) => {
+                const tableBody = document.querySelector(
+                  "#printer-table tbody"
+                );
+                tableBody.innerHTML = ""; // Clear previous data
+
+                if (Array.isArray(data)) {
+                  // Duyệt qua từng máy in và thêm vào bảng
+                  data.forEach((printer) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+              <td>${printer.code}</td>
+              <td>${printer.name}</td>
+              <td>${printer.brand}</td>
+              <td>${printer.model}</td>
+              <td>${printer.description}</td>
+              <td>${printer.campus}</td>
+              <td>${printer.building}</td>
+              <td>${printer.room}</td>
+              <td>${printer.status}</td>
+			  <td><input type="radio" class="printer-radio" name="printer"></td>
+            `;
+                    tableBody.appendChild(row);
+                  });
+                  attachRadioListeners();
+                } else {
+                  console.error("Dữ liệu trả về không phải là mảng:", data);
+                }
+              })
+              .catch((error) => console.error("Lỗi khi gọi API:", error));
+          }
+
+          // Gọi hàm fetchPrinters khi trang web tải
+          window.onload = fetchPrinters;
+          document
+            .getElementById("print-button")
+            .addEventListener("click", function () {
+              const timestamp = new Date().toLocaleString();
+              const printerCode = selectedPrinterCode;
+              console.log("printercode:", printerCode);
+              // Retrieve the existing history from localStorage
+              let history =
+                JSON.parse(localStorage.getItem("printingHistory")) || [];
+
+              // Assuming the user is editing the last entry (or based on some identifier)
+              const lastEntry = history[history.length - 1];
+              lastEntry.printerCode = printerCode;
+              lastEntry.timestamp = timestamp;
+              const quantity = lastEntry.pagenums;
+              // Save the updated history back to localStorage
+              localStorage.setItem("printingHistory", JSON.stringify(history));
+              const updatedPages =
+                parseInt(localStorage.getItem("currentPages"), 10) - quantity;
+              localStorage.setItem("currentPages", updatedPages.toString());
+            });
+        </script>
+      </div>
+      <div id="right_side">
+        <div class="content_item">
+          <div class="recent-files">
+            <h3>Các file đã in gần đây</h3>
+            <ul>
+              <li>1. ABC.pdf</li>
+              <li>2. DEF.doc</li>
+              <li>3. GHI.pdf</li>
+              <li>4. JKL.ppt</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="content_item">
+          <div class="system-notifications">
+            <h3>Thông báo hệ thống</h3>
+            <ul>
+              <li>Máy in #1 hết mực</li>
+              <li>Máy in #3 đang sửa chữa</li>
+              <li>Máy in #2 đã hoạt động bình thường</li>
+            </ul>
+          </div>
+        </div>
+        <div class="content_item">
+          <section class="ftco-section">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="calendar calendar-first" id="calendar_first">
+                    <div class="calendar_header">
+                      <button class="switch-month switch-left">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <h2></h2>
+                      <button class="switch-month switch-right">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                    <div class="calendar_weekdays"></div>
+                    <div class="calendar_content"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="call">
+        <div class="fa fa-phone"></div>
+        <p class="call_us">Liên hệ: Nhóm 6 CN01</p>
+      </div>
+      <div class="contact">
+        <div class="fa fa-envelope"></div>
+        <p class="contact_us">E-mail:nhom6.cn01@hcmut.edu.vn</p>
+      </div>
+    </footer>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+      integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+      data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}'
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.querySelector(".dropdown");
+        const dropbtn = document.querySelector(".dropbtn");
+
+        dropbtn.addEventListener("click", function (e) {
+          e.stopPropagation(); // Ngăn chặn sự kiện lan ra ngoài
+          dropdown.classList.toggle("show"); // Thêm/xóa lớp .show để hiển thị/ẩn dropdown
+        });
+
+        // Ẩn dropdown nếu click bên ngoài
+        document.addEventListener("click", function () {
+          dropdown.classList.remove("show");
+        });
+      });
+
+      // Mở sidebar
+      function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        if (sidebar.style.width === "450px") {
+          sidebar.style.width = "0";
+        } else {
+          sidebar.style.width = "450px";
+        }
+      }
+
+      // Đóng sidebar
+      function closeSidebar() {
+        document.getElementById("sidebar").style.width = "0";
+      }
+
+      // document.addEventListener("DOMContentLoaded", function () {
+      // const radios = document.querySelectorAll(".printer-radio");
+      // const selectedPrinterText = document.getElementById("selected-printer");
+      // const printButton = document.getElementById("print-button");
+
+      // radios.forEach((radio) => {
+      //     radio.addEventListener("change", function () {
+      //         if (this.checked) {
+      //             const selectedRow = this.closest("tr");
+      //             const printerID = selectedRow.querySelector("td:nth-child(2)").innerText;
+
+      //             // Cập nhật nội dung dòng thông báo
+      //             selectedPrinterText.innerHTML = `Bạn đã chọn <strong>máy in ${printerID}</strong>`;
+      //         }
+      //     });
+      // });
+
+      // Thêm sự kiện cho nút In
+      printButton.addEventListener("click", function () {
+        alert("Bắt đầu in tài liệu trên máy đã chọn.");
+      });
+    </script>
+  </body>
+</html>

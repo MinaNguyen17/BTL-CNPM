@@ -1,0 +1,34 @@
+.content_title {
+    font-size: 250%;
+    font-weight: bold;
+    padding: 10px 10px 5px 10px;
+}
+
+#success{
+    margin-top: 125px;
+}
+
+.payment-method-button {
+    text-align: center;
+    color: #ffffff;
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    margin: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    background-color: #3B9ECC;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Group 61 */
+
+
+

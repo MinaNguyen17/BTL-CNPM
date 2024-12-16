@@ -13,7 +13,7 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use("/static", express.static(path.join(__dirname, "../fronEnd/static")));
+app.use("/static", express.static(path.join(__dirname, "./fronEnd/static")));
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -24,60 +24,60 @@ app.use("/", mainRoutes);
 // Route để render file HTML từ thư mục frontend
 
 app.get("/login/index", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/login/index.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/login/index.html"));
 });
 
 app.get("/login/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/login/login.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/login/login.html"));
 });
 
 app.get("/homePage/home2", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/homePage/home2.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/homePage/home2.html"));
 });
 
 //trang chủ
 app.get("/homePage/index", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/homePage/index.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/homePage/index.html"));
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/homePage/index.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/homePage/index.html"));
 });
 
 //print
 app.get("/print/uploadFile", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/print/uploadFile.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/print/uploadFile.html"));
 });
 
 app.get("/print/config", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/print/config.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/print/config.html"));
 });
 
 app.get("/homePage/config", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/print/config.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/print/config.html"));
 });
 
 //history
 app.get("/history/history", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/history/history.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/history/history.html"));
 });
 
 //printerList
 app.get("/printerList/printerList", (req, res) => {
-  res.sendFile(path.join(__dirname, "../fronEnd/printerList/printerList.html"));
+  res.sendFile(path.join(__dirname, "./fronEnd/printerList/printerList.html"));
 });
 
 //successPrinting
 app.get("/successPrinting/successPrinting", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "../fronEnd/successPrinting/successPrinting.html")
+    path.join(__dirname, "./fronEnd/successPrinting/successPrinting.html")
   );
 });
 
 //buypaper
 app.get("/paperPurchase/paperpurchase", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "../fronEnd/paperPurchase/paperpurchase.html")
+    path.join(__dirname, "./fronEnd/paperPurchase/paperpurchase.html")
   );
 });
 

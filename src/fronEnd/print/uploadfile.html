@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A Smart Printing Service" />
+    <meta content="author" name="Tanlocdev04" />
+    <meta content="country" name="Viet Nam" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/test.css" />
+    <link rel="stylesheet" href="../static/css/style_calendar.css" />
+    <!--css cho lic-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <!--css cho lich-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!--css cho lich -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!--css cho footer -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!--css cho stickychop -->
+    <title>In tài liệu</title>
+  </head>
+
+  <body>
+    <div class="sticky-top">
+      <nav>
+        <a href="/homePage/home2" class="menu_left">
+          <img
+            src="/static/assets/hcmut.png"
+            alt="Logo"
+            class="logo"
+            style="height: 30px"
+          />
+        </a>
+        <a href="/homePage/home2" class="menu_left">Trang chủ</a>
+        <a href="/print/uploadFile" class="menu_left">In tài liệu</a>
+        <a href="/history/history" class="menu_left">Lịch sử</a>
+        <a href="/paperPurchase/paperpurchase" class="menu_left">Mua giấy</a>
+
+        <!-- Dấu 3 gạch -->
+        <!-- <div class="menu_right">
+				  <div class="menu-btn" onclick="toggleSidebar()" style="padding: 5px 10px 0px 0px; font-size: 200%;">
+				    &#9776; Đây là biểu tượng 3 gạch
+				  </div>
+			</div> -->
+
+        <div class="menu_right dropdown">
+          <button class="dropbtn">
+            <img
+              src="../static/assets/userAvatar.png"
+              alt="User Avatar"
+              class="avatar"
+            />
+            <span class="caret">▼</span>
+          </button>
+
+          <div class="dropdown-content">
+            <a href="#">Hồ sơ</a>
+            <!-- <a href="#">Điểm</a> -->
+            <a href="#">Lịch</a>
+            <a href="#">Tập tin riêng tư</a>
+            <a href="#">Báo cáo</a>
+            <a href="#">Tùy chọn</a>
+            <div class="submenu">
+              <a href="#">Ngôn ngữ</a>
+              <div class="submenu-content">
+                <a href="#">Tiếng Việt</a>
+                <a href="#">English</a>
+              </div>
+            </div>
+            <a href="/homePage/index">Thoát</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div id="flex_container">
+      <div id="left_side">
+        <h1 class="mt-5" style="text-align: center">
+          <strong>In tài liệu</strong>
+        </h1>
+        <p class="subtitle">Đăng tải tài liệu bạn muốn in</p>
+
+        <!-- Bao ngoài ô tải file để tạo viền ngoài -->
+        <div class="upload-box-wrapper">
+          <!-- Ô tải file với viền trong đứt -->
+          <div class="upload-box">
+            <input type="file" id="fileInput" multiple style="display: none" />
+            <button id="uploadButton">Tải file lên</button>
+            <p id="fileNameText">Không tệp nào được chọn</p>
+          </div>
+        </div>
+
+        <!-- Uploaded Files List -->
+        <div class="file-list-box-wrapper">
+          <div class="file-list-box">
+            <div class="file-list">
+              <h1>Những file đã tải lên</h1>
+              <div class="uploaded-files" id="fileListContainer">
+                <p>(Chưa có file nào được tải lên)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="right_side">
+        <div class="content_item">
+          <div class="recent-files">
+            <h3>Các file đã in gần đây</h3>
+            <ul>
+              <li>1. ABC.pdf</li>
+              <li>2. DEF.doc</li>
+              <li>3. GHI.pdf</li>
+              <li>4. JKL.ppt</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="content_item">
+          <div class="system-notifications">
+            <h3>Thông báo hệ thống</h3>
+            <ul>
+              <li>Máy in #1 hết mực</li>
+              <li>Máy in #3 đang sửa chữa</li>
+              <li>Máy in #2 đã hoạt động bình thường</li>
+            </ul>
+          </div>
+        </div>
+        <div class="content_item">
+          <!-- <img class="content_img" src="assets/math.jpg"/>
+					<div class="content_title">Lịch</div>
+					<div class="content_desc"></div> -->
+          <section class="ftco-section">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                  <!-- <h2 class="heading-section">Lịch</h2> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="calendar calendar-first" id="calendar_first">
+                    <div class="calendar_header">
+                      <button class="switch-month switch-left">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <h2></h2>
+                      <button class="switch-month switch-right">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                    <div class="calendar_weekdays"></div>
+                    <div class="calendar_content"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="call">
+        <div class="fa fa-phone"></div>
+        <p class="call_us">Liên hệ: Nhóm 6 CN01</p>
+      </div>
+      <div class="contact">
+        <div class="fa fa-envelope"></div>
+        <p class="contact_us">E-mail:nhom6.cn01@hcmut.edu.vn</p>
+      </div>
+    </footer>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+      integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+      data-cf-beacon='{"rayId":"8e596f24a8a1852e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"cd0b4b3a733644fc843ef0b185f98241"}'
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.querySelector(".dropdown");
+        const dropbtn = document.querySelector(".dropbtn");
+
+        dropbtn.addEventListener("click", function (e) {
+          e.stopPropagation(); // Ngăn chặn sự kiện lan ra ngoài
+          dropdown.classList.toggle("show"); // Thêm/xóa lớp .show để hiển thị/ẩn dropdown
+        });
+
+        // Ẩn dropdown nếu click bên ngoài
+        document.addEventListener("click", function () {
+          dropdown.classList.remove("show");
+        });
+      });
+      // Lấy các phần tử cần thiết
+      const fileInput = document.getElementById("fileInput");
+      const fileListContainer = document.getElementById("fileListContainer");
+      const fileNameText = document.getElementById("fileNameText");
+
+      // Để token trực tiếp trong mã (đảm bảo token hợp lệ)
+      const token = localStorage.getItem("token");
+      //alert(token);
+      //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGYyMjgzNTdjMjdjMWVkZTliNDdiZSIsInVzZXJuYW1lIjoibmV3dXNlciIsImlhdCI6MTczMzQ4ODM5OSwiZXhwIjoxNzMzNTc0Nzk5fQ.aV1N4wJguPmXMBXhZp6TI8L-GXS9xb7n7cWOkpjXUVE";
+      function navigateToConfig(fileId) {
+        localStorage.setItem("fileId", fileId);
+        window.location.href = "/print/config";
+      }
+
+      // Lấy danh sách các file đã tải lên
+      function fetchFileList() {
+        fetch("/file", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Token trực tiếp trong mã
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Không thể kết nối đến server hoặc API trả về lỗi!"
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Dữ liệu từ server:", data);
+            if (Array.isArray(data)) {
+              renderFileList(data); // Trường hợp server trả về mảng
+            }
+            // if (data.success) {
+            //     renderFileList(data.files); // Trường hợp server trả về đối tượng
+            // }
+            //else
+            else {
+              alert(
+                "Không thể lấy danh sách file! Lỗi từ API: " +
+                  (data.message || "Không rõ")
+              );
+            }
+          })
+          .catch((err) => {
+            console.error("Lỗi:", err);
+            alert("Đã có lỗi xảy ra khi lấy danh sách file: " + err.message);
+          });
+      }
+
+      function renderFileList(files) {
+        // fileListContainer.innerHTML = ''; // Xóa danh sách cũ
+
+        if (!files || files.length === 0) {
+          fileListContainer.innerHTML = "<p>Chưa có file nào được tải lên.</p>";
+          return;
+        }
+        // <a href="config	.html?fileID=${file._id}">
+        //             <button style="cursor: pointer;" onclick="navigateToConfig('${file._id}')">🖨️</button>
+        //         </a>
+        files.forEach((file) => {
+          const fileItem = document.createElement("div");
+          fileItem.className = "file-item";
+          fileItem.innerHTML = `
+            <span>${file.filename} (${(file.size / 1024).toFixed(2)} KB)</span>
+			<button onclick="navigateToConfig('${file._id}')">🖨️</button>
+            <button onclick="deleteFile('${file._id}')">&#128465</button>
+        `;
+          fileListContainer.appendChild(fileItem);
+        });
+      }
+
+      function deleteFile(fileId) {
+        fetch(`/file/${fileId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`, // Token hợp lệ
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Lỗi khi xóa file: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.success) {
+              alert("Không thể xóa file! Lỗi từ API: " + data.message);
+            } else {
+              alert("Xóa file thành công!");
+              fetchFileList(); // Cập nhật danh sách file
+            }
+          })
+          .catch((err) => {
+            console.error("Lỗi:", err);
+            alert("Đã có lỗi xảy ra khi xóa file: " + err.message);
+          });
+      }
+
+      // Lắng nghe sự kiện khi người dùng chọn file
+      fileInput.addEventListener("change", function () {
+        const files = fileInput.files;
+
+        if (files.length === 0) {
+          fileNameText.textContent = "Không tệp nào được chọn";
+          alert("Vui lòng chọn ít nhất một file!");
+          return;
+        }
+
+        fileNameText.textContent = `${files.length} tệp đã chọn`;
+
+        Array.from(files).forEach((file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("filename", file.name);
+          formData.append("size", file.size);
+          formData.append("contentType", file.type);
+
+          fetch("/file/upload", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`, // Dùng token trực tiếp trong mã
+            },
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(`Tải file "${file.name}" thành công!`);
+                fetchFileList(); // Cập nhật danh sách file
+              } else {
+                alert(`Lỗi: ${data.message}`);
+              }
+            })
+            .catch((err) => console.error("Lỗi:", err));
+        });
+      });
+
+      // Tải file lên khi người dùng nhấn nút
+      document
+        .getElementById("uploadButton")
+        .addEventListener("click", function () {
+          fileInput.click(); // Mở hộp thoại chọn file
+        });
+
+      // Gọi hàm để tải danh sách file ngay khi trang được tải
+      document.addEventListener("DOMContentLoaded", fetchFileList);
+    </script>
+  </body>
+</html>
