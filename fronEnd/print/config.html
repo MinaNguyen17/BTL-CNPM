@@ -255,7 +255,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   </body>
   <script>
-    const apiUrl = "http://localhost:9898/printer/send";
+    const apiUrl = "/printer/send";
 
     const fileId = localStorage.getItem("fileId");
     const token = localStorage.getItem("token");
@@ -270,7 +270,7 @@
     let pageNum = 1;
     let totalpages = 0;
 
-    fetch(`http://localhost:9898/file/${fileId}`, {
+    fetch(`/file/${fileId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
